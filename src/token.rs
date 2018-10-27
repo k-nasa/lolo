@@ -1,9 +1,20 @@
-struct Token {
-    tokne_type: TokenType,
-    literal: String,
+#[derive(Debug)]
+pub struct Token {
+    pub token_type: TokenType,
+    pub literal: String,
 }
 
-enum TokenType {
+impl Token {
+    pub fn new(token_type: TokenType, literal: String) -> Token {
+        Token {
+            token_type,
+            literal,
+        }
+    }
+}
+
+#[derive(PartialEq, Debug)]
+pub enum TokenType {
     ILLEGAL,
     EOF,
 
