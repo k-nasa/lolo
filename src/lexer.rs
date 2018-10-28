@@ -1,5 +1,6 @@
 use super::token::{Token, TokenType::*};
 
+#[derive(Debug)]
 struct Lexer {
     input: String,
     current_position: i32,
