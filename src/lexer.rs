@@ -55,6 +55,19 @@ impl Lexer {
         self.input[start..end].to_string()
     }
 
+    fn peek_char(&self) -> char {
+        println!("{:?}", self);
+        if self.read_position >= self.input.len() as u32 {
+            println!("not eq {:?}", self);
+            '\0'
+        } else {
+            self.input
+                .chars()
+                .nth(self.read_position as usize - 1)
+                .unwrap()
+        }
+    }
+
     fn skip_whitespace(&mut self) {
         while self.current_ch == ' ' || self.current_ch == '\n' || self.current_ch == '\t' {
             self.read_char();
