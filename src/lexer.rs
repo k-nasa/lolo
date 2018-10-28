@@ -3,8 +3,8 @@ use super::token::{Token, TokenType::*};
 #[derive(Debug)]
 struct Lexer {
     input: String,
-    current_position: i32,
-    read_position: i32,
+    current_position: u32,
+    read_position: u32,
     current_ch: char,
 }
 
@@ -21,7 +21,7 @@ impl Lexer {
         lexer
     }
 
-    fn get_char(&self, position: i32) -> char {
+    fn get_char(&self, position: u32) -> char {
         match self.input.chars().nth(position as usize) {
             Some(x) => x,
             None => 0 as char,
