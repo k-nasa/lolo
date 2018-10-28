@@ -16,6 +16,8 @@ impl Token {
         match s {
             "+" => TokenType::PLUS,
             "-" => TokenType::MINUS,
+            "/" => TokenType::SLASH,
+            "*" => TokenType::ASTERISK,
             "<" => TokenType::LT,
             ">" => TokenType::GT,
             "," => TokenType::COMMA,
