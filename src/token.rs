@@ -75,5 +75,6 @@ pub enum TokenType {
     TRUE,
     FALSE,
     IF,
+    ELSE,
     RETURN,
 }

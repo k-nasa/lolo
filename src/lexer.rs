@@ -186,4 +186,36 @@ mod tests {
             assert_eq!(t.literal, literal.to_string());
         }
     }
+
+    #[test]
+    fn is_should_analysis_controller_syntax() {
+        let input = "
+        if (5 < 10) {
+            return true;
+        } else {
+            return false;
+        }
+            "
+        .to_string();
+
+        let expects = vec![
+            (IF, "if"),
+            (LPAREN, "("),
+            (INT, "5"),
+            (GT, "<"),
+            (INT, "10"),
+            (RPAREN, ")"),
+            (LBRACE, "{"),
+            (RETURN, "return"),
+            (TRUE, "true"),
+            (SEMICOLON, ";"),
+            (RBRACE, "}"),
+            (ELSE, "else"),
+            (LBRACE, "{"),
+            (RETURN, "return"),
+            (FALSE, "false"),
+            (SEMICOLON, ";"),
+            (RBRACE, "}"),
+        ];
+    }
 }
