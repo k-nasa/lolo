@@ -34,6 +34,17 @@ impl Lexer {
         self.read_position += 1;
     }
 
+    fn read_identifier(&mut self) -> String {
+        let start_position = self.current_position as usize - 1;
+
+        while is_letter(self.current_ch) {
+            self.read_char();
+        }
+
+        let end_position = self.current_position as usize - 1;
+        self.input[start_position..end_position].to_string()
+    }
+
     fn next_token(&mut self) -> Token {
         let token: Token;
 
