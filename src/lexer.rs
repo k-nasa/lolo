@@ -45,6 +45,16 @@ impl Lexer {
         self.input[start_position..end_position].to_string()
     }
 
+    fn read_digit(&mut self) -> String {
+        let start = self.current_position as usize - 1;
+        while is_digit(self.current_ch) {
+            self.read_char();
+        }
+
+        let end = self.current_position as usize - 1;
+        self.input[start..end].to_string()
+    }
+
     fn next_token(&mut self) -> Token {
         let token: Token;
 
