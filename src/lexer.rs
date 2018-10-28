@@ -45,7 +45,7 @@ impl Lexer {
             ')' => token = Token::new(RPAREN, self.current_ch.to_string()),
             '{' => token = Token::new(LBRACE, self.current_ch.to_string()),
             '}' => token = Token::new(RBRACE, self.current_ch.to_string()),
-            eof if eof as u8 == 0 => token = Token::new(EOF, self.current_ch.to_string()),
+            '\u{0}' => token = Token::new(EOF, self.current_ch.to_string()),
             _ => token = Token::new(ILLEGAL, "".to_string()),
         };
 
