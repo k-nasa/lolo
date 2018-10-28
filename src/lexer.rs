@@ -76,6 +76,20 @@ impl Lexer {
             '{' => token = Token::new(LBRACE, self.current_ch.to_string()),
             '}' => token = Token::new(RBRACE, self.current_ch.to_string()),
             '\u{0}' => token = Token::new(EOF, self.current_ch.to_string()),
+            ch if is_letter(ch) => {
+                let literal = self.read_identifier();
+                token = Token {
+                    token_type: Token::fron_string(&literal),
+                    literal,
+                };
+                return token;
+            }
+            ch if is_digit(ch) => {
+                return Token {
+                    literal: self.read_digit(),
+                    token_type: INT,
+                }
+            }
             _ => token = Token::new(ILLEGAL, "".to_string()),
         };
 
