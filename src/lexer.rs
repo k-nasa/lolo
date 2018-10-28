@@ -55,8 +55,16 @@ impl Lexer {
         self.input[start..end].to_string()
     }
 
+    fn skip_whitespace(&mut self) {
+        while self.current_ch == ' ' || self.current_ch == '\n' || self.current_ch == '\t' {
+            self.read_char();
+        }
+    }
+
     fn next_token(&mut self) -> Token {
         let token: Token;
+
+        self.skip_whitespace();
 
         match self.current_ch {
             '=' => token = Token::new(ASSIGN, self.current_ch.to_string()),
