@@ -11,6 +11,33 @@ impl Token {
             literal,
         }
     }
+
+    pub fn fron_string(s: &str) -> TokenType {
+        match s {
+            "+" => TokenType::PLUS,
+            "-" => TokenType::MINUS,
+            "<" => TokenType::LT,
+            ">" => TokenType::GT,
+            "," => TokenType::COMMA,
+            ";" => TokenType::SEMICOLON,
+            "(" => TokenType::LPAREN,
+            ")" => TokenType::RPAREN,
+            "{" => TokenType::LBRACE,
+            "}" => TokenType::RBRACE,
+            "let" => TokenType::LET,
+            "fn" => TokenType::FUNCTION,
+            "true" => TokenType::TRUE,
+            "false" => TokenType::FALSE,
+            "if" => TokenType::IF,
+            "return" => TokenType::RETURN,
+            "" => TokenType::EOF,
+            "=" => TokenType::ASSIGN,
+            "!" => TokenType::BANG,
+            "==" => TokenType::EQ,
+            "!=" => TokenType::NOTEQ,
+            _ => TokenType::IDENT,
+        }
+    }
 }
 
 #[derive(PartialEq, Debug)]
