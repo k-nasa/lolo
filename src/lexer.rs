@@ -103,7 +103,10 @@ impl Lexer {
             ')' => token = Token::new(RPAREN, self.current_ch.to_string()),
             '{' => token = Token::new(LBRACE, self.current_ch.to_string()),
             '}' => token = Token::new(RBRACE, self.current_ch.to_string()),
+            '>' => token = Token::new(GT, self.current_ch.to_string()),
+            '<' => token = Token::new(LT, self.current_ch.to_string()),
             '\u{0}' => token = Token::new(EOF, self.current_ch.to_string()),
+
             ch if is_letter(ch) => {
                 let literal = self.read_identifier();
                 token = Token {
@@ -230,7 +233,7 @@ mod tests {
             (IF, "if"),
             (LPAREN, "("),
             (INT, "5"),
-            (GT, "<"),
+            (LT, "<"),
             (INT, "10"),
             (RPAREN, ")"),
             (LBRACE, "{"),
