@@ -61,7 +61,7 @@ mod tests {
 
     #[test]
     fn is_should_analysis_of_arithmetic_symbols() {
-        let input = "=+(){},;".to_string();
+        let input = "=+(){},;l".to_string();
 
         let expects = vec![
             (ASSIGN, "="),
@@ -72,6 +72,7 @@ mod tests {
             (RBRACE, "}"),
             (COMMA, ","),
             (SEMICOLON, ";"),
+            (ILLEGAL, ""),
             (EOF, "\u{0}"),
         ];
 
