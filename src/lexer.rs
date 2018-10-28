@@ -1,7 +1,7 @@
 use super::token::{Token, TokenType::*};
 
 #[derive(Debug)]
-struct Lexer {
+pub struct Lexer {
     input: String,
     current_position: u32,
     read_position: u32,
@@ -9,7 +9,7 @@ struct Lexer {
 }
 
 impl Lexer {
-    fn new(input: String) -> Lexer {
+    pub fn new(input: String) -> Lexer {
         let mut lexer = Lexer {
             input,
             current_position: 0,
@@ -72,7 +72,7 @@ impl Lexer {
         }
     }
 
-    fn next_token(&mut self) -> Token {
+    pub fn next_token(&mut self) -> Token {
         let token: Token;
 
         self.skip_whitespace();
