@@ -70,7 +70,7 @@ mod tests {
 
     #[test]
     fn is_should_analysis_of_arithmetic_symbols() {
-        let input = "=+(){},;l".to_string();
+        let input = "=+(){},;".to_string();
 
         let expects = vec![
             (ASSIGN, "="),
@@ -81,7 +81,56 @@ mod tests {
             (RBRACE, "}"),
             (COMMA, ","),
             (SEMICOLON, ";"),
-            (ILLEGAL, ""),
+            (EOF, "\u{0}"),
+        ];
+
+        let mut l = Lexer::new(input);
+
+        for (token_type, literal) in expects {
+            let t = l.next_token();
+
+            assert_eq!(t.token_type, token_type);
+            assert_eq!(t.literal, literal.to_string());
+        }
+    }
+
+    #[test]
+    fn is_should_analysis_of_let_fn_literal() {
+        let input = "let five = 5;
+        let ten = 10;
+        let add = fn(x,y) {
+            x + y;
+        };
+            "
+        .to_string();
+
+        let expects = vec![
+            (LET, "let"),
+            (IDENT, "five"),
+            (ASSIGN, "="),
+            (INT, "5"),
+            (SEMICOLON, ";"),
+            (LET, "let"),
+            (IDENT, "ten"),
+            (ASSIGN, "="),
+            (INT, "10"),
+            (SEMICOLON, ";"),
+            (LET, "let"),
+            (IDENT, "add"),
+            (ASSIGN, "="),
+            (FUNCTION, "fn"),
+            (LPAREN, "("),
+            (IDENT, "x"),
+            (COMMA, ","),
+            (IDENT, "y"),
+            (RPAREN, ")"),
+            (LBRACE, "{"),
+            (IDENT, "x"),
+            (PLUS, "+"),
+            (IDENT, "y"),
+            (SEMICOLON, ";"),
+            (RBRACE, "}"),
+            (SEMICOLON, ";"),
             (EOF, "\u{0}"),
         ];
 
