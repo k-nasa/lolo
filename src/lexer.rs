@@ -11,7 +11,7 @@ struct Lexer {
 impl Lexer {
     fn new(input: String) -> Lexer {
         let mut lexer = Lexer {
-            input: input,
+            input,
             current_position: 0,
             read_position: 1,
             current_ch: 0 as char,
@@ -94,7 +94,7 @@ impl Lexer {
         };
 
         self.read_char();
-        return token;
+        token
     }
 }
 
