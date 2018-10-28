@@ -56,9 +56,7 @@ impl Lexer {
     }
 
     fn peek_char(&self) -> char {
-        println!("{:?}", self);
         if self.read_position >= self.input.len() as u32 {
-            println!("not eq {:?}", self);
             '\0'
         } else {
             self.input
@@ -80,7 +78,24 @@ impl Lexer {
         self.skip_whitespace();
 
         match self.current_ch {
-            '=' => token = Token::new(ASSIGN, self.current_ch.to_string()),
+            '=' if self.peek_char() == '=' => {
+                self.read_char();
+                token = Token {
+                    literal: "==".to_string(),
+                    token_type: EQ,
+                };
+            }
+            '!' if self.peek_char() == '=' => {
+                self.read_char();
+                token = Token {
+                    literal: "!=".to_string(),
+                    token_type: NOTEQ,
+                };
+            }
+            '=' => {
+                token = Token::new(ASSIGN, self.current_ch.to_string());
+            }
+            '!' => token = Token::new(BANG, self.current_ch.to_string()),
             '+' => token = Token::new(PLUS, self.current_ch.to_string()),
             ';' => token = Token::new(SEMICOLON, self.current_ch.to_string()),
             ',' => token = Token::new(COMMA, self.current_ch.to_string()),
@@ -230,5 +245,44 @@ mod tests {
             (SEMICOLON, ";"),
             (RBRACE, "}"),
         ];
+
+        let mut l = Lexer::new(input);
+
+        for (token_type, literal) in expects {
+            let t = l.next_token();
+
+            assert_eq!(t.token_type, token_type);
+            assert_eq!(t.literal, literal.to_string());
+        }
+    }
+
+    #[test]
+    fn is_should_analysis_of_eq_and_noteq() {
+        let input = "
+        10 == 10;
+        5 != 10;
+        "
+        .to_string();
+
+        let expects = vec![
+            (INT, "10"),
+            (EQ, "=="),
+            (INT, "10"),
+            (SEMICOLON, ";"),
+            (INT, "5"),
+            (NOTEQ, "!="),
+            (INT, "10"),
+            (SEMICOLON, ";"),
+            (EOF, "\0"),
+        ];
+
+        let mut l = Lexer::new(input);
+
+        for (token_type, literal) in expects {
+            let t = l.next_token();
+
+            assert_eq!(t.token_type, token_type);
+            assert_eq!(t.literal, literal.to_string());
+        }
     }
 }
