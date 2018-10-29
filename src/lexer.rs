@@ -1,5 +1,6 @@
 use super::token::{Token, TokenType::*};
 use super::utils::*;
+use std::string::ToString;
 
 #[derive(Debug)]
 pub struct Lexer {
@@ -10,9 +11,9 @@ pub struct Lexer {
 }
 
 impl Lexer {
-    pub fn new(input: String) -> Self {
+    pub fn new<T: ToString>(input: T) -> Self {
         let mut lexer = Lexer {
-            input,
+            input: input.to_string(),
             current_position: 0,
             read_position: 1,
             current_ch: 0 as char,
@@ -122,7 +123,7 @@ mod tests {
 
     #[test]
     fn is_should_analysis_of_arithmetic_symbols() {
-        let input = "=+(){},;".to_string();
+        let input = "=+(){},;";
 
         let expects = vec![
             (ASSIGN, "="),
@@ -153,8 +154,7 @@ mod tests {
         let add = fn(x,y) {
             x + y;
         };
-            "
-        .to_string();
+            ";
 
         let expects = vec![
             (LET, "let"),
@@ -204,8 +204,7 @@ mod tests {
         } else {
             return false;
         }
-            "
-        .to_string();
+            ";
 
         let expects = vec![
             (IF, "if"),
@@ -242,8 +241,7 @@ mod tests {
         let input = "
         10 == 10;
         5 != 10;
-        "
-        .to_string();
+        ";
 
         let expects = vec![
             (INT, "10"),
