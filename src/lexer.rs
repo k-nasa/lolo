@@ -92,9 +92,7 @@ impl Lexer {
                     token_type: NOTEQ,
                 };
             }
-            '=' => {
-                token = Token::new(ASSIGN, self.current_ch.to_string());
-            }
+            '=' => token = Token::new(ASSIGN, self.current_ch.to_string()),
             '!' => token = Token::new(BANG, self.current_ch.to_string()),
             '+' => token = Token::new(PLUS, self.current_ch.to_string()),
             ';' => token = Token::new(SEMICOLON, self.current_ch.to_string()),
@@ -105,7 +103,7 @@ impl Lexer {
             '}' => token = Token::new(RBRACE, self.current_ch.to_string()),
             '>' => token = Token::new(GT, self.current_ch.to_string()),
             '<' => token = Token::new(LT, self.current_ch.to_string()),
-            '\u{0}' => token = Token::new(EOF, self.current_ch.to_string()),
+            '\0' => token = Token::new(EOF, self.current_ch.to_string()),
 
             ch if is_letter(ch) => {
                 let literal = self.read_identifier();
@@ -155,7 +153,7 @@ mod tests {
             (RBRACE, "}"),
             (COMMA, ","),
             (SEMICOLON, ";"),
-            (EOF, "\u{0}"),
+            (EOF, "\0"),
         ];
 
         let mut l = Lexer::new(input);
@@ -205,7 +203,7 @@ mod tests {
             (SEMICOLON, ";"),
             (RBRACE, "}"),
             (SEMICOLON, ";"),
-            (EOF, "\u{0}"),
+            (EOF, "\0"),
         ];
 
         let mut l = Lexer::new(input);
