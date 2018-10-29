@@ -12,6 +12,27 @@ impl Token {
         }
     }
 
+    pub fn from_char(c: char) -> TokenType {
+        match c {
+            '+' => TokenType::PLUS,
+            '-' => TokenType::MINUS,
+            '/' => TokenType::SLASH,
+            '*' => TokenType::ASTERISK,
+            '<' => TokenType::LT,
+            '>' => TokenType::GT,
+            ',' => TokenType::COMMA,
+            ';' => TokenType::SEMICOLON,
+            '(' => TokenType::LPAREN,
+            ')' => TokenType::RPAREN,
+            '{' => TokenType::LBRACE,
+            '}' => TokenType::RBRACE,
+            '=' => TokenType::ASSIGN,
+            '!' => TokenType::BANG,
+            '\0' => TokenType::EOF,
+            _ => TokenType::ILLEGAL,
+        }
+    }
+
     pub fn fron_string(s: &str) -> TokenType {
         match s {
             "+" => TokenType::PLUS,
@@ -26,6 +47,10 @@ impl Token {
             ")" => TokenType::RPAREN,
             "{" => TokenType::LBRACE,
             "}" => TokenType::RBRACE,
+            "=" => TokenType::ASSIGN,
+            "!" => TokenType::BANG,
+            "==" => TokenType::EQ,
+            "!=" => TokenType::NOTEQ,
             "let" => TokenType::LET,
             "fn" => TokenType::FUNCTION,
             "true" => TokenType::TRUE,
@@ -34,10 +59,6 @@ impl Token {
             "else" => TokenType::ELSE,
             "return" => TokenType::RETURN,
             "" => TokenType::EOF,
-            "=" => TokenType::ASSIGN,
-            "!" => TokenType::BANG,
-            "==" => TokenType::EQ,
-            "!=" => TokenType::NOTEQ,
             _ => TokenType::IDENT,
         }
     }

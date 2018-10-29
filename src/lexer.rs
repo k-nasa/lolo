@@ -93,19 +93,6 @@ impl Lexer {
                     token_type: NOTEQ,
                 };
             }
-            '=' => token = Token::new(ASSIGN, self.current_ch.to_string()),
-            '!' => token = Token::new(BANG, self.current_ch.to_string()),
-            '+' => token = Token::new(PLUS, self.current_ch.to_string()),
-            ';' => token = Token::new(SEMICOLON, self.current_ch.to_string()),
-            ',' => token = Token::new(COMMA, self.current_ch.to_string()),
-            '(' => token = Token::new(LPAREN, self.current_ch.to_string()),
-            ')' => token = Token::new(RPAREN, self.current_ch.to_string()),
-            '{' => token = Token::new(LBRACE, self.current_ch.to_string()),
-            '}' => token = Token::new(RBRACE, self.current_ch.to_string()),
-            '>' => token = Token::new(GT, self.current_ch.to_string()),
-            '<' => token = Token::new(LT, self.current_ch.to_string()),
-            '\0' => token = Token::new(EOF, self.current_ch.to_string()),
-
             ch if is_letter(ch) => {
                 let literal = self.read_identifier();
                 token = Token {
@@ -120,7 +107,7 @@ impl Lexer {
                     token_type: INT,
                 }
             }
-            _ => token = Token::new(ILLEGAL, "".to_string()),
+            ch => token = Token::new(Token::from_char(ch), self.current_ch.to_string()),
         };
 
         self.read_char();
