@@ -1,4 +1,5 @@
 use super::token::{Token, TokenType::*};
+use super::utils::*;
 
 #[derive(Debug)]
 pub struct Lexer {
@@ -125,14 +126,6 @@ impl Lexer {
         self.read_char();
         token
     }
-}
-
-pub fn is_letter(ch: char) -> bool {
-    'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '|'
-}
-
-pub fn is_digit(ch: char) -> bool {
-    '0' <= ch && ch <= '9'
 }
 
 #[cfg(test)]
