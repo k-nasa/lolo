@@ -40,8 +40,8 @@ impl Node for Statements {
 }
 
 pub struct LetStatement {
-    token: Token,
-    name: Identifier,
+    pub token: Token,
+    pub name: Identifier,
 }
 
 impl Node for LetStatement {
@@ -55,8 +55,8 @@ impl Statement for LetStatement {
 }
 
 pub struct Identifier {
-    token: Token,
-    value: String,
+    pub token: Token,
+    pub value: String,
 }
 
 impl Node for Identifier {

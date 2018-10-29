@@ -42,6 +42,7 @@ mod test {
     use super::Lexer;
     use super::Parser;
     use super::Statements;
+    use crate::ast::Node;
 
     #[test]
     fn is_should_parse_let_state_ment() {
@@ -63,11 +64,19 @@ mod test {
         for (i, name) in expect_names.iter().enumerate() {
             let smtm = &program.statements[i];
 
-            assert!(test_let_statement(smtm, name));
+            test_let_statement(smtm, name);
         }
     }
 
-    fn test_let_statement(stmt: &Statements, name: &str) -> bool {
-        true
+    fn test_let_statement(stmt: &Statements, name: &str) {
+        assert_eq!(stmt.token_literal(), "let");
+
+        let let_stmt;
+        match stmt {
+            Statements::LetStatement(stmt) => let_stmt = stmt,
+        };
+
+        assert_eq!(let_stmt.name.value, name);
+        assert_eq!(let_stmt.name.token_literal(), name);
     }
 }
