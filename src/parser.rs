@@ -1,0 +1,73 @@
+use super::ast::*;
+use super::lexer::*;
+use super::token::*;
+
+pub struct Parser {
+    lexer: Lexer,
+    current_token: Token,
+    peek_token: Token,
+}
+
+impl Parser {
+    pub fn new(lexer: Lexer) -> Self {
+        let mut parser = Parser {
+            lexer,
+            current_token: Token::new(TokenType::ILLEGAL, ""),
+            peek_token: Token::new(TokenType::ILLEGAL, ""),
+        };
+
+        parser.next_token();
+        parser.next_token();
+
+        parser
+    }
+
+    // WIP
+    pub fn parse_program(&mut self) -> Program {
+        let program = Program {
+            statements: Vec::new(),
+        };
+
+        program
+    }
+
+    fn next_token(&mut self) {
+        self.current_token = self.peek_token.clone();
+        self.peek_token = self.lexer.next_token();
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::Lexer;
+    use super::Parser;
+    use super::Statements;
+
+    #[test]
+    fn is_should_parse_let_state_ment() {
+        let input = "
+            let x = 5;
+            let y = 10;
+            let hoge = 89898989;
+        ";
+
+        let lexer = Lexer::new(input);
+        let mut parser = Parser::new(lexer);
+
+        let program = parser.parse_program();
+
+        assert_eq!(program.statements.len(), 3);
+
+        let expect_names = ["x", "y", "hoge"];
+
+        for (i, name) in expect_names.iter().enumerate() {
+            let smtm = &program.statements[i];
+
+            assert!(test_let_statement(smtm, name));
+        }
+    }
+
+    fn test_let_statement(stmt: &Statements, name: &str) -> bool {
+        true
+    }
+}
