@@ -107,7 +107,7 @@ impl Lexer {
                     token_type: INT,
                 }
             }
-            ch => token = Token::new(Token::from_char(ch), self.current_ch.to_string()),
+            ch => token = Token::new(Token::from_char(ch), self.current_ch),
         };
 
         self.read_char();
