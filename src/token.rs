@@ -1,6 +1,6 @@
 use std::string::ToString;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Token {
     pub token_type: TokenType,
     pub literal: String,
@@ -66,7 +66,7 @@ impl Token {
     }
 }
 
-#[derive(PartialEq, Debug)]
+#[derive(Clone, PartialEq, Debug)]
 pub enum TokenType {
     ILLEGAL,
     EOF,
