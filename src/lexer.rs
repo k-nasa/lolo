@@ -10,7 +10,7 @@ pub struct Lexer {
 }
 
 impl Lexer {
-    pub fn new(input: String) -> Lexer {
+    pub fn new(input: String) -> Self {
         let mut lexer = Lexer {
             input,
             current_position: 0,

@@ -5,7 +5,7 @@ pub struct Token {
 }
 
 impl Token {
-    pub fn new(token_type: TokenType, literal: String) -> Token {
+    pub fn new<T: ToString>(token_type: TokenType, literal: T) -> Self {
         Token {
             token_type,
             literal,
