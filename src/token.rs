@@ -1,3 +1,5 @@
+use std::string::ToString;
+
 #[derive(Debug)]
 pub struct Token {
     pub token_type: TokenType,
@@ -8,7 +10,7 @@ impl Token {
     pub fn new<T: ToString>(token_type: TokenType, literal: T) -> Self {
         Token {
             token_type,
-            literal,
+            literal: literal.to_string(),
         }
     }
 
