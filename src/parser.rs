@@ -71,6 +71,21 @@ impl Parser {
         Statements::LetStatement(LetStatement { token, name })
     }
 
+    fn parse_return_statement(&mut self) -> Statements {
+        let return_statement = ReturnStatement {
+            token: self.current_token.clone(),
+            expression: Expressions {},
+        };
+
+        self.next_token();
+
+        while !self.current_token_is(&TokenType::SEMICOLON) {
+            self.next_token();
+        }
+
+        Statements::ReturnStatement(return_statement)
+    }
+
     fn current_token_is(&self, t: &TokenType) -> bool {
         self.current_token.token_type == *t
     }
