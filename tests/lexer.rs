@@ -1,64 +1,151 @@
 extern crate lolo;
 
 #[cfg(test)]
-mod test {
-    use lolo::ast::Node;
-    use lolo::ast::Statements;
+mod tests {
     use lolo::lexer::Lexer;
-    use lolo::parser::Parser;
+    use lolo::token::TokenType::*;
 
     #[test]
-    fn is_should_parse_let_statement() {
-        let input = "
-            let x = 5;
-            let y = 10;
-            let hoge = 89898989;
-        ";
+    fn is_should_analysis_of_arithmetic_symbols() {
+        let input = "=+(){},;";
 
-        let lexer = Lexer::new(input);
-        let mut parser = Parser::new(lexer);
-        let program = parser.parse_program();
+        let expects = vec![
+            (ASSIGN, "="),
+            (PLUS, "+"),
+            (LPAREN, "("),
+            (RPAREN, ")"),
+            (LBRACE, "{"),
+            (RBRACE, "}"),
+            (COMMA, ","),
+            (SEMICOLON, ";"),
+            (EOF, "\0"),
+        ];
 
-        assert_eq!(program.statements.len(), 3);
+        let mut l = Lexer::new(input);
 
-        let expect_names = ["x", "y", "hoge"];
+        for (token_type, literal) in expects {
+            let t = l.next_token();
 
-        for (i, name) in expect_names.iter().enumerate() {
-            let smtm = &program.statements[i];
-
-            test_let_statement(smtm, name);
+            assert_eq!(t.token_type, token_type);
+            assert_eq!(t.literal, literal.to_string());
         }
     }
 
     #[test]
-    fn is_should_parse_return_statement() {
-        let input = "
-            return 5;
-            return 10;
-            return 89898989;
-        ";
-
-        let lexer = Lexer::new(input);
-        let mut parser = Parser::new(lexer);
-        let program = parser.parse_program();
-
-        assert_eq!(program.statements.len(), 3);
-
-        for stmt in program.statements {
-            assert_eq!(stmt.token_literal(), "return");
-        }
-    }
-
-    fn test_let_statement(stmt: &Statements, name: &str) {
-        assert_eq!(stmt.token_literal(), "let");
-
-        let let_stmt;
-        match stmt {
-            Statements::LetStatement(stmt) => let_stmt = stmt,
-            _ => panic!(),
+    fn is_should_analysis_of_let_fn_literal() {
+        let input = "let five = 5;
+        let ten = 10;
+        let add = fn(x,y) {
+            x + y;
         };
+            ";
 
-        assert_eq!(let_stmt.name.value, name);
-        assert_eq!(let_stmt.name.token_literal(), name);
+        let expects = vec![
+            (LET, "let"),
+            (IDENT, "five"),
+            (ASSIGN, "="),
+            (INT, "5"),
+            (SEMICOLON, ";"),
+            (LET, "let"),
+            (IDENT, "ten"),
+            (ASSIGN, "="),
+            (INT, "10"),
+            (SEMICOLON, ";"),
+            (LET, "let"),
+            (IDENT, "add"),
+            (ASSIGN, "="),
+            (FUNCTION, "fn"),
+            (LPAREN, "("),
+            (IDENT, "x"),
+            (COMMA, ","),
+            (IDENT, "y"),
+            (RPAREN, ")"),
+            (LBRACE, "{"),
+            (IDENT, "x"),
+            (PLUS, "+"),
+            (IDENT, "y"),
+            (SEMICOLON, ";"),
+            (RBRACE, "}"),
+            (SEMICOLON, ";"),
+            (EOF, "\0"),
+        ];
+
+        let mut l = Lexer::new(input);
+
+        for (token_type, literal) in expects {
+            let t = l.next_token();
+
+            assert_eq!(t.token_type, token_type);
+            assert_eq!(t.literal, literal.to_string());
+        }
+    }
+
+    #[test]
+    fn is_should_analysis_controller_syntax() {
+        let input = "
+        if (5 < 10) {
+            return true;
+        } else {
+            return false;
+        }
+            ";
+
+        let expects = vec![
+            (IF, "if"),
+            (LPAREN, "("),
+            (INT, "5"),
+            (LT, "<"),
+            (INT, "10"),
+            (RPAREN, ")"),
+            (LBRACE, "{"),
+            (RETURN, "return"),
+            (TRUE, "true"),
+            (SEMICOLON, ";"),
+            (RBRACE, "}"),
+            (ELSE, "else"),
+            (LBRACE, "{"),
+            (RETURN, "return"),
+            (FALSE, "false"),
+            (SEMICOLON, ";"),
+            (RBRACE, "}"),
+        ];
+
+        let mut l = Lexer::new(input);
+
+        for (token_type, literal) in expects {
+            let t = l.next_token();
+
+            assert_eq!(t.token_type, token_type);
+            assert_eq!(t.literal, literal.to_string());
+        }
+    }
+
+    #[test]
+    fn is_should_analysis_of_eq_and_noteq() {
+        let input = "
+        10 == 10;
+        5 != 10;
+        ";
+
+        let expects = vec![
+            (INT, "10"),
+            (EQ, "=="),
+            (INT, "10"),
+            (SEMICOLON, ";"),
+            (INT, "5"),
+            (NOTEQ, "!="),
+            (INT, "10"),
+            (SEMICOLON, ";"),
+            (EOF, "\0"),
+        ];
+
+        let mut l = Lexer::new(input);
+
+        for (token_type, literal) in expects {
+            let t = l.next_token();
+
+            assert_eq!(t.token_type, token_type);
+            assert_eq!(t.literal, literal.to_string());
+        }
     }
 }
