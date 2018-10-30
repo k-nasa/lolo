@@ -27,6 +27,7 @@ impl Program {
     }
 }
 
+#[derive(Debug)]
 pub enum Statements {
     LetStatement(LetStatement),
 }
@@ -39,6 +40,7 @@ impl Node for Statements {
     }
 }
 
+#[derive(Debug)]
 pub struct LetStatement {
     pub token: Token,
     pub name: Identifier,
@@ -54,6 +56,7 @@ impl Statement for LetStatement {
     fn statement_node() {}
 }
 
+#[derive(Debug)]
 pub struct Identifier {
     pub token: Token,
     pub value: String,
