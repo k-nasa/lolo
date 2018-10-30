@@ -1,10 +1,5 @@
-mod ast;
-mod lexer;
-mod parser;
-mod repl;
-mod token;
-mod utils;
+extern crate lolo;
 
 fn main() {
-    repl::run();
+    lolo::repl::run();
 }
