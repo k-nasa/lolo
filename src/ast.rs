@@ -31,12 +31,14 @@ impl Program {
 #[derive(Debug, Clone)]
 pub enum Statements {
     LetStatement(LetStatement),
+    ReturnStatement(ReturnStatement),
 }
 
 impl Node for Statements {
     fn token_literal(&self) -> String {
         match self {
             &Statements::LetStatement(ref x) => x.token.literal.clone(),
+            &Statements::ReturnStatement(ref x) => x.token.literal.clone(),
         }
     }
 }
@@ -56,6 +58,25 @@ impl Node for LetStatement {
 impl Statement for LetStatement {
     fn statement_node() {}
 }
+
+#[derive(Debug, Clone)]
+pub struct ReturnStatement {
+    pub token: Token,
+    pub expression: Expressions,
+}
+
+impl Node for ReturnStatement {
+    fn token_literal(&self) -> String {
+        self.token.literal.clone()
+    }
+}
+
+impl Statement for ReturnStatement {
+    fn statement_node() {}
+}
+
+#[derive(Debug, Clone)]
+pub struct Expressions {}
 
 #[derive(Debug, Clone)]
 pub struct Identifier {

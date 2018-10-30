@@ -42,6 +42,7 @@ impl Parser {
     fn parse_statement(&mut self) -> Option<Statements> {
         match self.current_token.token_type {
             TokenType::LET => Some(self.parse_let_statement()),
+            TokenType::RETURN => Some(self.parse_return_statement()),
             _ => None,
         }
     }
