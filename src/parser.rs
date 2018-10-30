@@ -50,7 +50,7 @@ impl Parser {
         let token = self.current_token.clone();
 
         // FIXME to notify errors messegage
-        assert!(self.current_token_is(&TokenType::IDENT));
+        assert!(self.peek_token_is(&TokenType::IDENT));
         self.next_token();
 
         let name = Identifier {
@@ -121,6 +121,7 @@ mod test {
         let let_stmt;
         match stmt {
             Statements::LetStatement(stmt) => let_stmt = stmt,
+            _ => panic!(),
         };
 
         assert_eq!(let_stmt.name.value, name);
