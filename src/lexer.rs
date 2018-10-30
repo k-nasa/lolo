@@ -58,14 +58,15 @@ impl Lexer {
     }
 
     fn peek_char(&self) -> char {
-        if self.read_position >= self.input.len() as u32 {
-            '\0'
-        } else {
-            self.input
+        if self.read_position <= self.input.len() as u32 {
+            return self
+                .input
                 .chars()
                 .nth(self.read_position as usize - 1)
-                .unwrap()
-        }
+                .unwrap();
+        };
+
+        '\0'
     }
 
     fn skip_whitespace(&mut self) {

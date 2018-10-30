@@ -2,9 +2,9 @@ use super::lexer::Lexer;
 use super::token::TokenType::*;
 use std::string::*;
 
-const PROMPT: &str = &">>";
-
 pub fn run() {
+    const PROMPT: &str = &">>";
+
     loop {
         let input: String = read();
         let mut lexer = Lexer::new(input.clone());
