@@ -22,11 +22,19 @@ impl Parser {
         parser
     }
 
-    // WIP
     pub fn parse_program(&mut self) -> Program {
-        let program = Program {
+        let mut program = Program {
             statements: Vec::new(),
         };
+
+        while self.current_token.token_type != TokenType::EOF {
+            let stmt = self.parse_statement();
+            if let Some(stmt) = stmt {
+                program.statements.push(stmt);
+            };
+
+            self.next_token();
+        }
 
         program
     }
