@@ -18,16 +18,6 @@ pub struct Program {
     pub statements: Vec<Statements>,
 }
 
-impl Program {
-    pub fn token_literal(&self) -> String {
-        if self.statements.len() <= 0 {
-            return "".to_string();
-        }
-
-        self.statements[0].token_literal()
-    }
-}
-
 #[derive(Debug, Clone)]
 pub enum Statements {
     LetStatement(LetStatement),
@@ -37,8 +27,8 @@ pub enum Statements {
 impl Node for Statements {
     fn token_literal(&self) -> String {
         match self {
-            &Statements::LetStatement(ref x) => x.token.literal.clone(),
-            &Statements::ReturnStatement(ref x) => x.token.literal.clone(),
+            Statements::LetStatement(ref x) => x.token.literal.clone(),
+            Statements::ReturnStatement(ref x) => x.token.literal.clone(),
         }
     }
 }
