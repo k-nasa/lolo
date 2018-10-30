@@ -101,7 +101,6 @@ mod test {
 
         let lexer = Lexer::new(input);
         let mut parser = Parser::new(lexer);
-
         let program = parser.parse_program();
 
         assert_eq!(program.statements.len(), 3);
@@ -112,6 +111,25 @@ mod test {
             let smtm = &program.statements[i];
 
             test_let_statement(smtm, name);
+        }
+    }
+
+    #[test]
+    fn is_should_parse_return_statement() {
+        let input = "
+            return 5;
+            return 10;
+            return 89898989;
+        ";
+
+        let lexer = Lexer::new(input);
+        let mut parser = Parser::new(lexer);
+        let program = parser.parse_program();
+
+        assert_eq!(program.statements.len(), 3);
+
+        for stmt in program.statements {
+            assert_eq!(stmt.token_literal(), "return");
         }
     }
 
