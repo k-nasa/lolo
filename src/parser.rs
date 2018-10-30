@@ -46,6 +46,28 @@ impl Parser {
         }
     }
 
+    fn parse_let_statement(&mut self) -> Statements {
+        let token = self.current_token.clone();
+
+        assert_eq!(self.peek_token.token_type, TokenType::IDENT);
+        self.next_token();
+
+        let name = Identifier {
+            token: self.current_token.clone(),
+            value: self.current_token.literal.clone(),
+        };
+
+        assert_eq!(self.peek_token.token_type, TokenType::ASSIGN);
+        self.next_token();
+
+        // WIP
+        while self.current_token.token_type != TokenType::SEMICOLON {
+            self.next_token();
+        }
+
+        Statements::LetStatement(LetStatement { token, name })
+    }
+
     fn next_token(&mut self) {
         self.current_token = self.peek_token.clone();
         self.peek_token = self.lexer.next_token();
