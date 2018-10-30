@@ -92,7 +92,7 @@ mod test {
     use crate::ast::Node;
 
     #[test]
-    fn is_should_parse_let_state_ment() {
+    fn is_should_parse_let_statement() {
         let input = "
             let x = 5;
             let y = 10;
