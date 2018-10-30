@@ -13,12 +13,13 @@ pub trait Expression: Node {
 }
 
 // root ast node
+#[derive(Debug, Clone)]
 pub struct Program {
     pub statements: Vec<Statements>,
 }
 
 impl Program {
-    fn token_literal(&self) -> String {
+    pub fn token_literal(&self) -> String {
         if self.statements.len() <= 0 {
             return "".to_string();
         }
@@ -27,7 +28,7 @@ impl Program {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Statements {
     LetStatement(LetStatement),
 }
@@ -40,7 +41,7 @@ impl Node for Statements {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct LetStatement {
     pub token: Token,
     pub name: Identifier,
@@ -56,7 +57,7 @@ impl Statement for LetStatement {
     fn statement_node() {}
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Identifier {
     pub token: Token,
     pub value: String,
