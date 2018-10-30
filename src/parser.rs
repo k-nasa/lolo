@@ -50,7 +50,7 @@ impl Parser {
         let token = self.current_token.clone();
 
         // FIXME to notify errors messegage
-        assert_eq!(self.peek_token.token_type, TokenType::IDENT);
+        assert!(self.current_token_is(&TokenType::IDENT));
         self.next_token();
 
         let name = Identifier {
@@ -59,7 +59,7 @@ impl Parser {
         };
 
         // FIXME to notify errors messegage
-        assert_eq!(self.peek_token.token_type, TokenType::ASSIGN);
+        assert!(self.peek_token_is(&TokenType::ASSIGN));
         self.next_token();
 
         // WIP
@@ -68,6 +68,14 @@ impl Parser {
         }
 
         Statements::LetStatement(LetStatement { token, name })
+    }
+
+    fn current_token_is(&self, t: &TokenType) -> bool {
+        self.current_token.token_type == *t
+    }
+
+    fn peek_token_is(&self, t: &TokenType) -> bool {
+        self.peek_token.token_type == *t
     }
 
     fn next_token(&mut self) {
