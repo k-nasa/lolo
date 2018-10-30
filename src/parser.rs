@@ -49,6 +49,7 @@ impl Parser {
     fn parse_let_statement(&mut self) -> Statements {
         let token = self.current_token.clone();
 
+        // FIXME to notify errors messegage
         assert_eq!(self.peek_token.token_type, TokenType::IDENT);
         self.next_token();
 
@@ -57,6 +58,7 @@ impl Parser {
             value: self.current_token.literal.clone(),
         };
 
+        // FIXME to notify errors messegage
         assert_eq!(self.peek_token.token_type, TokenType::ASSIGN);
         self.next_token();
 
