@@ -39,6 +39,13 @@ impl Parser {
         program
     }
 
+    fn parse_statement(&mut self) -> Option<Statements> {
+        match self.current_token.token_type {
+            TokenType::LET => Some(self.parse_let_statement()),
+            _ => None,
+        }
+    }
+
     fn next_token(&mut self) {
         self.current_token = self.peek_token.clone();
         self.peek_token = self.lexer.next_token();
