@@ -59,7 +59,7 @@ mod test {
 
         assert_eq!(program.statements.len(), 1);
 
-        let stmt = &program.statements[0];
+        let stmt = program.statements.first().unwrap();
 
         let ident = match stmt {
             Statements::ExpressionStatement(x) => &x.expression.identifier,
