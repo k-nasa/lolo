@@ -53,10 +53,17 @@ pub struct ExpressionStatement {
     pub expression: Expression,
 }
 
-// wip
-#[derive(Debug, Clone, Default)]
-pub struct Expression {
-    pub identifier: Identifier,
+#[derive(Debug, Clone)]
+pub enum Expression {
+    Identifier(Identifier),
+    IntegerLiteral(IntegerLiteral),
+    ILLEGAL,
+}
+
+impl Default for Expression {
+    fn default() -> Expression {
+        Expression::ILLEGAL
+    }
 }
 
 #[derive(Debug, Clone, Default)]
