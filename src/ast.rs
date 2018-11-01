@@ -72,6 +72,12 @@ pub struct Identifier {
     pub value: String,
 }
 
+#[derive(Debug, Clone, Default)]
+pub struct IntegerLiteral {
+    pub token: Token,
+    pub value: i64,
+}
+
 impl Node for Identifier {
     fn token_literal(&self) -> String {
         self.token.literal.clone()
