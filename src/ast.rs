@@ -63,36 +63,6 @@ pub struct Identifier {
     pub value: String,
 }
 
-impl Node for LetStatement {
-    fn token_literal(&self) -> String {
-        self.token.literal.clone()
-    }
-}
-
-impl Statement for LetStatement {
-    fn statement_node() {}
-}
-
-impl Node for ReturnStatement {
-    fn token_literal(&self) -> String {
-        self.token.literal.clone()
-    }
-}
-
-impl Statement for ReturnStatement {
-    fn statement_node() {}
-}
-
-impl Node for ExpressionStatement {
-    fn token_literal(&self) -> String {
-        self.token.literal.clone()
-    }
-}
-
-impl Statement for ExpressionStatement {
-    fn statement_node() {}
-}
-
 impl Node for Identifier {
     fn token_literal(&self) -> String {
         self.token.literal.clone()
