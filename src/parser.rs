@@ -29,9 +29,7 @@ impl Parser {
 
         while self.current_token.token_type != TokenType::EOF {
             let stmt = self.parse_statement();
-            if let Some(stmt) = stmt {
-                program.statements.push(stmt);
-            };
+            program.statements.push(stmt);
 
             self.next_token();
         }
@@ -39,11 +37,11 @@ impl Parser {
         program
     }
 
-    fn parse_statement(&mut self) -> Option<Statements> {
+    fn parse_statement(&mut self) -> Statements {
         match self.current_token.token_type {
-            TokenType::LET => Some(self.parse_let_statement()),
-            TokenType::RETURN => Some(self.parse_return_statement()),
-            _ => None,
+            TokenType::LET => self.parse_let_statement(),
+            TokenType::RETURN => self.parse_return_statement(),
+            _ => self.parse_expression_statement(),
         }
     }
 
@@ -84,6 +82,10 @@ impl Parser {
         }
 
         Statements::ReturnStatement(return_statement)
+    }
+
+    fn parse_expression_statement(&mut self) -> Statements {
+        unimplemented!()
     }
 
     fn current_token_is(&self, t: &TokenType) -> bool {
