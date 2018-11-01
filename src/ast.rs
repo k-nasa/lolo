@@ -8,7 +8,7 @@ pub trait Statement: Node {
     fn statement_node();
 }
 
-pub trait Expression: Node {
+pub trait Expr: Node {
     fn expression_node();
 }
 
@@ -44,18 +44,18 @@ pub struct LetStatement {
 #[derive(Debug, Clone)]
 pub struct ReturnStatement {
     pub token: Token,
-    pub expression: Expressions,
+    pub expression: Expression,
 }
 
 #[derive(Debug, Clone)]
 pub struct ExpressionStatement {
     pub token: Token,
-    pub expression: Expressions,
+    pub expression: Expression,
 }
 
 // wip
 #[derive(Debug, Clone)]
-pub struct Expressions {}
+pub struct Expression {}
 
 #[derive(Debug, Clone)]
 pub struct Identifier {

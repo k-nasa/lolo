@@ -74,7 +74,7 @@ impl Parser {
     fn parse_return_statement(&mut self) -> Statements {
         let return_statement = ReturnStatement {
             token: self.current_token.clone(),
-            expression: Expressions {},
+            expression: Expression {},
         };
 
         self.next_token();
