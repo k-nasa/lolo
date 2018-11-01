@@ -1,6 +1,6 @@
 use std::string::ToString;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Token {
     pub token_type: TokenType,
     pub literal: String,
@@ -101,4 +101,10 @@ pub enum TokenType {
     IF,
     ELSE,
     RETURN,
+}
+
+impl Default for TokenType {
+    fn default() -> Self {
+        TokenType::ILLEGAL
+    }
 }

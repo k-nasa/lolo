@@ -54,10 +54,12 @@ pub struct ExpressionStatement {
 }
 
 // wip
-#[derive(Debug, Clone)]
-pub struct Expression {}
+#[derive(Debug, Clone, Default)]
+pub struct Expression {
+    pub identifier: Identifier,
+}
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Identifier {
     pub token: Token,
     pub value: String,
