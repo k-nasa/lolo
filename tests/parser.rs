@@ -49,6 +49,27 @@ mod test {
         }
     }
 
+    #[test]
+    fn is_should_parse_identifir_expression() {
+        let input = "foober;";
+
+        let lexer = Lexer::new(input);
+        let mut parser = Parser::new(lexer);
+        let program = parser.parse_program();
+
+        assert_eq!(program.statements.len(), 1);
+
+        let stmt = &program.statements[0];
+
+        let ident = match stmt {
+            Statements::ExpressionStatement(x) => &x.expression.identifier,
+            _ => panic!(),
+        };
+
+        assert_eq!(ident.value, "foober");
+        assert_eq!(ident.token_literal(), "foober");
+    }
+
     fn test_let_statement(stmt: &Statements, name: &str) {
         assert_eq!(stmt.token_literal(), "let");
 
