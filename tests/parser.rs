@@ -74,6 +74,32 @@ mod test {
         assert_eq!(ident.token_literal(), "foober");
     }
 
+    #[test]
+    fn is_should_parse_integer_literal_expression() {
+        let input = "5;";
+
+        let lexer = Lexer::new(input);
+        let mut parser = Parser::new(lexer);
+        let program = parser.parse_program();
+
+        assert_eq!(program.statements.len(), 1);
+
+        let stmt = program.statements.first().unwrap();
+
+        let expression = match stmt {
+            Statements::ExpressionStatement(x) => &x.expression,
+            _ => panic!(),
+        };
+
+        let integer_literal = match expression {
+            Expression::IntegerLiteral(x) => x,
+            _ => panic!(),
+        };
+
+        assert_eq!(integer_literal.value, 5);
+        assert_eq!(integer_literal.token.literal, "5");
+    }
+
     fn test_let_statement(stmt: &Statements, name: &str) {
         assert_eq!(stmt.token_literal(), "let");
 
