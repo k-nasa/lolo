@@ -96,7 +96,39 @@ impl Parser {
     }
 
     fn parse_expression_statement(&mut self) -> Statements {
-        unimplemented!()
+        let stmt = ExpressionStatement {
+            token: self.current_token.clone(),
+            expression: self.parse_expression(Precedence::LOWEST),
+        };
+
+        if self.peek_token_is(&TokenType::SEMICOLON) {
+            self.next_token();
+        }
+
+        Statements::ExpressionStatement(stmt)
+    }
+
+    fn parse_expression(&mut self, preceduce: Precedence) -> Expression {
+        let token = self.current_token.clone();
+        let left = self.parse_prefix(token.token_type);
+
+        left.unwrap()
+    }
+
+    fn parse_prefix(&mut self, token_type: TokenType) -> Option<Expression> {
+        match token_type {
+            TokenType::IDENT => Some(self.parse_identifier()),
+            _ => None,
+        }
+    }
+
+    fn parse_identifier(&self) -> Expression {
+        Expression {
+            identifier: Identifier {
+                token: self.current_token.clone(),
+                value: self.current_token.literal.clone(),
+            },
+        }
     }
 
     fn current_token_is(&self, t: &TokenType) -> bool {
