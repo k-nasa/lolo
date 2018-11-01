@@ -2,8 +2,7 @@ extern crate lolo;
 
 #[cfg(test)]
 mod test {
-    use lolo::ast::Node;
-    use lolo::ast::Statements;
+    use lolo::ast::*;
     use lolo::lexer::Lexer;
     use lolo::parser::Parser;
 
@@ -61,8 +60,13 @@ mod test {
 
         let stmt = program.statements.first().unwrap();
 
-        let ident = match stmt {
-            Statements::ExpressionStatement(x) => &x.expression.identifier,
+        let expression = match stmt {
+            Statements::ExpressionStatement(x) => &x.expression,
+            _ => panic!(),
+        };
+
+        let ident = match expression {
+            Expression::Identifier(x) => x,
             _ => panic!(),
         };
 
