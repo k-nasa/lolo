@@ -8,6 +8,17 @@ pub struct Parser {
     peek_token: Token,
 }
 
+#[derive(Debug, PartialOrd, PartialEq, Ord, Eq)]
+enum Precedence {
+    LOWEST,
+    EQUALS,
+    LESSGREATER,
+    SUM,
+    PRODUCT,
+    PREFIX,
+    CALL,
+}
+
 impl Parser {
     pub fn new(lexer: Lexer) -> Self {
         let mut parser = Parser {
