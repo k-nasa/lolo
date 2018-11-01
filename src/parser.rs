@@ -118,17 +118,23 @@ impl Parser {
     fn parse_prefix(&mut self, token_type: TokenType) -> Option<Expression> {
         match token_type {
             TokenType::IDENT => Some(self.parse_identifier()),
+            TokenType::INT => Some(self.parse_integer_literal()),
             _ => None,
         }
     }
 
     fn parse_identifier(&self) -> Expression {
-        Expression {
-            identifier: Identifier {
-                token: self.current_token.clone(),
-                value: self.current_token.literal.clone(),
-            },
-        }
+        Expression::Identifier(Identifier {
+            token: self.current_token.clone(),
+            value: self.current_token.literal.clone(),
+        })
+    }
+
+    fn parse_integer_literal(&self) -> Expression {
+        Expression::IntegerLiteral(IntegerLiteral {
+            token: self.current_token.clone(),
+            value: self.current_token.literal.parse().unwrap(),
+        })
     }
 
     fn current_token_is(&self, t: &TokenType) -> bool {
