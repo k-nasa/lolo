@@ -57,6 +57,7 @@ pub struct ExpressionStatement {
 pub enum Expression {
     Identifier(Identifier),
     IntegerLiteral(IntegerLiteral),
+    PrefixExpression(PrefixExpression),
     ILLEGAL,
 }
 
@@ -76,6 +77,13 @@ pub struct Identifier {
 pub struct IntegerLiteral {
     pub token: Token,
     pub value: i64,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct PrefixExpression {
+    pub token: Token,
+    pub operator: String,
+    pub right: Box<Expression>,
 }
 
 impl Node for Identifier {
