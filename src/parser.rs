@@ -119,6 +119,8 @@ impl Parser {
         match token_type {
             TokenType::IDENT => Some(self.parse_identifier()),
             TokenType::INT => Some(self.parse_integer_literal()),
+            TokenType::BANG => Some(self.parse_prefix_expression()),
+            TokenType::MINUS => Some(self.parse_prefix_expression()),
             _ => None,
         }
     }
@@ -134,6 +136,21 @@ impl Parser {
         Expression::IntegerLiteral(IntegerLiteral {
             token: self.current_token.clone(),
             value: self.current_token.literal.parse().unwrap(),
+        })
+    }
+
+    fn parse_prefix_expression(&mut self) -> Expression {
+        let token = self.current_token.clone();
+        let operator = self.current_token.literal.clone();
+
+        self.next_token();
+
+        let right = Box::new(self.parse_expression(Precedence::PREFIX));
+
+        Expression::PrefixExpression(PrefixExpression {
+            token,
+            operator,
+            right,
         })
     }
 
