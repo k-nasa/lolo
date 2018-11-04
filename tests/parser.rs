@@ -94,9 +94,32 @@ mod test {
         test_integer_literal(&expression, 5)
     }
 
+    #[test]
+    fn is_should_parse_prefix_expression() {
+        let prefix_tests = vec![("!5;", "!", "5"), ("-15;", "-", "15")];
 
-        assert_eq!(integer_literal.value, 5);
-        assert_eq!(integer_literal.token.literal, "5");
+        for prefix in prefix_tests {
+            let lexer = Lexer::new(prefix.0);
+            let mut parser = Parser::new(lexer);
+            let program = parser.parse_program();
+
+            assert_eq!(program.statements.len(), 1);
+
+            let stmt = program.statements.first().unwrap();
+
+            let expression = match stmt {
+                Statements::ExpressionStatement(x) => &x.expression,
+                _ => panic!(),
+            };
+
+            let expression = match expression {
+                Expression::PrefixExpression(x) => x,
+                _ => panic!(),
+            };
+
+            assert_eq!(expression.operator, prefix.1);
+            test_integer_literal(&expression.right, prefix.2.parse().unwrap());
+        }
     }
 
     fn test_let_statement(stmt: &Statements, name: &str) {
