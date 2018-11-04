@@ -91,10 +91,9 @@ mod test {
             _ => panic!(),
         };
 
-        let integer_literal = match expression {
-            Expression::IntegerLiteral(x) => x,
-            _ => panic!(),
-        };
+        test_integer_literal(&expression, 5)
+    }
+
 
         assert_eq!(integer_literal.value, 5);
         assert_eq!(integer_literal.token.literal, "5");
@@ -111,5 +110,15 @@ mod test {
 
         assert_eq!(let_stmt.name.value, name);
         assert_eq!(let_stmt.name.token_literal(), name);
+    }
+
+    fn test_integer_literal(expression: &Expression, value: i64) {
+        let integer_literal = match expression {
+            Expression::IntegerLiteral(x) => x,
+            _ => panic!(),
+        };
+
+        assert_eq!(integer_literal.value, value);
+        assert_eq!(integer_literal.token.literal, value.to_string());
     }
 }
