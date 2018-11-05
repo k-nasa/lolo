@@ -136,7 +136,7 @@ impl Parser {
             .parse_prefix(token.token_type)
             .expect("failt parse_expression");
 
-        while !self.peek_token_is(&TokenType::SEMICOLON) && preceduce < &self.peek_precedence() {
+        while !self.peek_token_is(&TokenType::SEMICOLON) && self.peek_precedence() > *preceduce {
             let token = self.peek_token.clone();
 
             self.next_token();
