@@ -279,6 +279,21 @@ impl Parser {
         }))
     }
 
+    fn parse_block_statement(&mut self) -> BlockStatement {
+        let token = self.current_token.clone();
+        self.next_token();
+
+        let mut statements = Vec::new();
+        while !self.current_token_is(&TokenType::RBRACE) && !self.current_token_is(&TokenType::EOF)
+        {
+            let stmt = self.parse_statement();
+            statements.push(stmt);
+            self.next_token();
+        }
+
+        BlockStatement { token, statements }
+    }
+
     fn current_token_is(&self, t: &TokenType) -> bool {
         self.current_token.token_type == *t
     }
