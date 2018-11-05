@@ -39,6 +39,7 @@ impl Node for Statements {
 pub struct LetStatement {
     pub token: Token,
     pub name: Identifier,
+    pub value: Expression,
 }
 
 #[derive(Debug, Clone)]

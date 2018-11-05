@@ -2,6 +2,7 @@ use super::ast::*;
 use super::lexer::*;
 use super::token::*;
 
+#[derive(Debug)]
 pub struct Parser {
     lexer: Lexer,
     current_token: Token,
@@ -88,15 +89,17 @@ impl Parser {
         };
 
         // FIXME to notify errors messegage
-        assert!(self.peek_token_is(&TokenType::ASSIGN));
+        self.expect_peek_token(TokenType::ASSIGN);
         self.next_token();
+
+        let value = self.parse_expression(Precedence::LOWEST);
 
         // WIP
         while self.current_token.token_type != TokenType::SEMICOLON {
             self.next_token();
         }
 
-        Statements::LetStatement(LetStatement { token, name })
+        Statements::LetStatement(LetStatement { token, name, value })
     }
 
     fn parse_return_statement(&mut self) -> Statements {
@@ -228,5 +231,11 @@ impl Parser {
     fn next_token(&mut self) {
         self.current_token = self.peek_token.clone();
         self.peek_token = self.lexer.next_token();
+    }
+
+    fn expect_peek_token(&mut self, token_type: TokenType) {
+        if self.peek_token_is(&token_type) {
+            self.next_token();
+        }
     }
 }
