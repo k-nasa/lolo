@@ -92,7 +92,7 @@ impl Parser {
         self.expect_peek_token(TokenType::ASSIGN);
         self.next_token();
 
-        let value = self.parse_expression(Precedence::LOWEST);
+        let value = self.parse_expression(&Precedence::LOWEST);
 
         // WIP
         while self.current_token.token_type != TokenType::SEMICOLON {
@@ -120,7 +120,7 @@ impl Parser {
     fn parse_expression_statement(&mut self) -> Statements {
         let stmt = ExpressionStatement {
             token: self.current_token.clone(),
-            expression: self.parse_expression(Precedence::LOWEST),
+            expression: self.parse_expression(&Precedence::LOWEST),
         };
 
         if self.peek_token_is(&TokenType::SEMICOLON) {
@@ -130,13 +130,13 @@ impl Parser {
         Statements::ExpressionStatement(stmt)
     }
 
-    fn parse_expression(&mut self, preceduce: Precedence) -> Expression {
+    fn parse_expression(&mut self, preceduce: &Precedence) -> Expression {
         let token = self.current_token.clone();
         let mut left = self
             .parse_prefix(token.token_type)
             .expect("failt parse_expression");
 
-        while !self.peek_token_is(&TokenType::SEMICOLON) && preceduce < self.peek_precedence() {
+        while !self.peek_token_is(&TokenType::SEMICOLON) && preceduce < &self.peek_precedence() {
             let token = self.peek_token.clone();
 
             self.next_token();
@@ -179,7 +179,7 @@ impl Parser {
 
         self.next_token();
 
-        let right = Box::new(self.parse_expression(precedence));
+        let right = Box::new(self.parse_expression(&precedence));
 
         Expression::InfixExpression(InfixExpression {
             token,
@@ -216,7 +216,7 @@ impl Parser {
 
         self.next_token();
 
-        let right = Box::new(self.parse_expression(Precedence::PREFIX));
+        let right = Box::new(self.parse_expression(&Precedence::PREFIX));
 
         Expression::PrefixExpression(PrefixExpression {
             token,
@@ -228,7 +228,7 @@ impl Parser {
     fn parse_group_expression(&mut self) -> Option<Expression> {
         self.next_token();
 
-        let exp = self.parse_expression(Precedence::LOWEST);
+        let exp = self.parse_expression(&Precedence::LOWEST);
 
         if !self.expect_peek_token(TokenType::RPAREN) {
             // TODO add error message
@@ -247,7 +247,7 @@ impl Parser {
         }
 
         self.next_token();
-        let condition = self.parse_expression(Precedence::LOWEST);
+        let condition = self.parse_expression(&Precedence::LOWEST);
 
         if !self.expect_peek_token(TokenType::RPAREN) {
             // TODO add error message
