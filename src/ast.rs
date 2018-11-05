@@ -106,6 +106,7 @@ pub enum Expression {
     PrefixExpression(PrefixExpression),
     InfixExpression(InfixExpression),
     Boolean(Boolean),
+    IfExpression(IfExpression),
     ILLEGAL,
 }
 
@@ -168,6 +169,13 @@ pub struct Boolean {
     pub value: bool,
 }
 
+#[derive(Debug, Clone, Default)]
+pub struct IfExpression {
+    pub token: Token,
+    pub condition: Box<Expression>,
+    pub consequence: BlockStatement,
+    pub alternative: Option<BlockStatement>,
+}
 impl Node for Identifier {
     fn token_literal(&self) -> String {
         self.token.literal.clone()
