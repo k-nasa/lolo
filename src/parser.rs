@@ -129,9 +129,16 @@ impl Parser {
 
     fn parse_expression(&mut self, preceduce: Precedence) -> Expression {
         let token = self.current_token.clone();
-        let left = self.parse_prefix(token.token_type);
+        let mut left = self.parse_prefix(token.token_type).unwrap();
 
-        left.unwrap()
+        while !self.peek_token_is(&TokenType::SEMICOLON) && preceduce < self.peek_precedence() {
+            let token = self.current_token.clone();
+
+            self.next_token();
+            left = self.parse_infix(token.token_type, left).unwrap();
+        }
+
+        left
     }
 
     fn parse_prefix(&mut self, token_type: TokenType) -> Option<Expression> {
