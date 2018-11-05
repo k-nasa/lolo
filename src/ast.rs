@@ -176,6 +176,22 @@ pub struct IfExpression {
     pub consequence: BlockStatement,
     pub alternative: Option<BlockStatement>,
 }
+
+impl IfExpression {
+    pub fn to_string(&self) -> String {
+        let mut if_string = format!(
+            "if {} {}",
+            self.condition.to_string(),
+            self.consequence.to_string()
+        );
+
+        if let Some(alt) = &self.alternative {
+            if_string.push_str(&alt.to_string());
+        }
+
+        if_string
+    }
+}
 impl Node for Identifier {
     fn token_literal(&self) -> String {
         self.token.literal.clone()
