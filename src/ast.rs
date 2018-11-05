@@ -105,6 +105,7 @@ pub enum Expression {
     IntegerLiteral(IntegerLiteral),
     PrefixExpression(PrefixExpression),
     InfixExpression(InfixExpression),
+    Boolean(Boolean),
     ILLEGAL,
 }
 
@@ -122,6 +123,7 @@ impl Expression {
                 x.operator,
                 x.right.to_string()
             ),
+            Expression::Boolean(ref x) => x.token.literal.to_string(),
             _ => String::new(),
         }
     }
@@ -158,6 +160,12 @@ pub struct InfixExpression {
     pub operator: String,
     pub right: Box<Expression>,
     pub left: Box<Expression>,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct Boolean {
+    pub token: Token,
+    pub value: bool,
 }
 
 impl Node for Identifier {
