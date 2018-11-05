@@ -192,6 +192,24 @@ impl IfExpression {
         if_string
     }
 }
+
+#[derive(Debug, Clone, Default)]
+pub struct BlockStatement {
+    pub token: Token,
+    pub statements: Vec<Statements>,
+}
+
+impl BlockStatement {
+    pub fn to_string(&self) -> String {
+        let mut return_string = String::new();
+        for stmt in &self.statements {
+            return_string.push_str(&stmt.to_string());
+        }
+
+        return_string
+    }
+}
+
 impl Node for Identifier {
     fn token_literal(&self) -> String {
         self.token.literal.clone()
