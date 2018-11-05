@@ -220,6 +220,39 @@ mod test {
         }
     }
 
+    #[test]
+    fn is_should_parse_if_expression() {
+        let input = "if (x < y) { 888 }";
+        let lexer = Lexer::new(input);
+        let mut parser = Parser::new(lexer);
+        let program = parser.parse_program();
+
+        assert_eq!(program.statements.len(), 1);
+
+        let stmt = program.statements.first().unwrap();
+
+        let expression = match stmt {
+            Statements::ExpressionStatement(x) => &x.expression,
+            _ => panic!(),
+        };
+
+        let expression = match expression {
+            Expression::IfExpression(x) => x,
+            _ => panic!(),
+        };
+
+        assert_eq!(expression.consequence.statements.len(), 1);
+        let consequence = expression.consequence.statements.first().unwrap();
+
+        let expression_statement = match consequence {
+            Statements::ExpressionStatement(x) => &x.expression,
+            _ => panic!(),
+        };
+
+        test_identifier(expression_statement, "x");
+        assert_eq!(expression.alternative.is_none(), true);
+    }
+
     fn test_let_statement(stmt: &Statements, name: &str) {
         assert_eq!(stmt.token_literal(), "let");
 
