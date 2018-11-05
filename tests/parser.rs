@@ -172,6 +172,9 @@ mod test {
             ("false", "false"),
             ("3 > 5 == false", "((3 > 5) == false)"),
             ("3 > 5 == true", "((3 > 5) == true)"),
+            ("a + (b + c)", "(a + (b + c))"),
+            ("(a + b) * c", "((a + b) * c)"),
+            ("!(true == false)", "(!(true == false))"),
         ];
 
         for expected in prefix_tests {
