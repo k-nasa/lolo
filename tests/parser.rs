@@ -222,7 +222,7 @@ mod test {
 
     #[test]
     fn is_should_parse_if_expression() {
-        let input = "if (x < y) { 888 }";
+        let input = "if (x < y) { x }";
         let lexer = Lexer::new(input);
         let mut parser = Parser::new(lexer);
         let program = parser.parse_program();
