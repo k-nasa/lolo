@@ -168,6 +168,10 @@ mod test {
                 "3 - 4 * 5 == 2 * 90 + 9",
                 "((3 - (4 * 5)) == ((2 * 90) + 9))",
             ),
+            ("true", "true"),
+            ("false", "false"),
+            ("3 > 5 == false", "((3 > 5) == false)"),
+            ("3 > 5 == true", "((3 > 5) == true)"),
         ];
 
         for expected in prefix_tests {
