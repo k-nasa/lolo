@@ -255,9 +255,12 @@ impl Parser {
         self.peek_token = self.lexer.next_token();
     }
 
-    fn expect_peek_token(&mut self, token_type: TokenType) {
+    fn expect_peek_token(&mut self, token_type: TokenType) -> bool {
         if self.peek_token_is(&token_type) {
             self.next_token();
+            return true;
         }
+
+        false
     }
 }
