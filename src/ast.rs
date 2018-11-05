@@ -18,11 +18,33 @@ pub struct Program {
     pub statements: Vec<Statements>,
 }
 
+impl Program {
+    pub fn to_string(&self) -> String {
+        let mut string = String::new();
+
+        for statement in &self.statements {
+            string.push_str(&statement.to_string());
+        }
+
+        string
+    }
+}
+
 #[derive(Debug, Clone)]
 pub enum Statements {
     LetStatement(LetStatement),
     ReturnStatement(ReturnStatement),
     ExpressionStatement(ExpressionStatement),
+}
+
+impl Statements {
+    fn to_string(&self) -> String {
+        match self {
+            Statements::LetStatement(ref x) => x.to_string(),
+            Statements::ReturnStatement(ref x) => x.to_string(),
+            Statements::ExpressionStatement(ref x) => x.to_string(),
+        }
+    }
 }
 
 impl Node for Statements {
@@ -42,16 +64,39 @@ pub struct LetStatement {
     pub value: Expression,
 }
 
+impl LetStatement {
+    fn to_string(&self) -> String {
+        format!(
+            "{} {} = {};",
+            self.token.literal,
+            self.name.value,
+            self.value.to_string()
+        )
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct ReturnStatement {
     pub token: Token,
     pub expression: Expression,
 }
 
+impl ReturnStatement {
+    fn to_string(&self) -> String {
+        format!("{} {};", self.token.literal, self.expression.to_string(),)
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct ExpressionStatement {
     pub token: Token,
     pub expression: Expression,
+}
+
+impl ExpressionStatement {
+    fn to_string(&self) -> String {
+        self.expression.to_string()
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -61,6 +106,25 @@ pub enum Expression {
     PrefixExpression(PrefixExpression),
     InfixExpression(InfixExpression),
     ILLEGAL,
+}
+
+impl Expression {
+    fn to_string(&self) -> String {
+        match self {
+            Expression::Identifier(ref x) => x.value.to_string(),
+            Expression::IntegerLiteral(ref x) => x.token.literal.to_string(),
+            Expression::PrefixExpression(ref x) => {
+                format!("({}{})", x.operator, x.right.to_string())
+            }
+            Expression::InfixExpression(ref x) => format!(
+                "({} {} {})",
+                x.left.to_string(),
+                x.operator,
+                x.right.to_string()
+            ),
+            _ => String::new(),
+        }
+    }
 }
 
 impl Default for Expression {

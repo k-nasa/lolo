@@ -140,7 +140,6 @@ mod test {
             let mut parser = Parser::new(lexer);
             let program = parser.parse_program();
 
-            println!("{:?}", program.statements);
             assert_eq!(program.statements.len(), 1);
 
             let stmt = program.statements.first().unwrap();
