@@ -49,7 +49,7 @@ mod test {
     }
 
     #[test]
-    fn is_should_parse_identifir_expression() {
+    fn is_should_parse_identifier_expression() {
         let input = "foober;";
 
         let lexer = Lexer::new(input);
@@ -65,13 +65,7 @@ mod test {
             _ => panic!(),
         };
 
-        let ident = match expression {
-            Expression::Identifier(x) => x,
-            _ => panic!(),
-        };
-
-        assert_eq!(ident.value, "foober");
-        assert_eq!(ident.token_literal(), "foober");
+        test_identifier(expression, "foober");
     }
 
     #[test]
@@ -207,5 +201,15 @@ mod test {
 
         assert_eq!(integer_literal.value, value);
         assert_eq!(integer_literal.token.literal, value.to_string());
+    }
+
+    fn test_identifier(exp: &Expression, value: &str) {
+        let ident = match exp {
+            Expression::Identifier(ref x) => x.clone(),
+            _ => panic!(),
+        };
+
+        assert_eq!(ident.value, value);
+        assert_eq!(ident.token.literal, value);
     }
 }
