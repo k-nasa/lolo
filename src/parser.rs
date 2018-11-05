@@ -132,10 +132,10 @@ impl Parser {
         let mut left = self.parse_prefix(token.token_type).unwrap();
 
         while !self.peek_token_is(&TokenType::SEMICOLON) && preceduce < self.peek_precedence() {
-            let token = self.current_token.clone();
+            let token = self.peek_token.clone();
 
             self.next_token();
-            left = self.parse_infix(token.token_type, left).unwrap();
+            left = self.parse_infix(token.token_type, left);
         }
 
         left
@@ -151,14 +151,14 @@ impl Parser {
         }
     }
 
-    fn parse_infix(&mut self, token_type: TokenType, left: Expression) -> Option<Expression> {
+    fn parse_infix(&mut self, token_type: TokenType, left: Expression) -> Expression {
         use super::token::TokenType::*;
 
         match token_type {
             PLUS | MINUS | SLASH | ASTERISK | EQ | NOTEQ | LT | GT => {
-                Some(self.parse_infix_expression(left))
+                self.parse_infix_expression(left)
             }
-            _ => None,
+            _ => left,
         }
     }
 
@@ -166,8 +166,8 @@ impl Parser {
         let token = self.current_token.clone();
         let operator = self.current_token.literal.clone();
         let left = Box::new(left);
-
         let precedence = self.current_precedence();
+
         self.next_token();
 
         let right = Box::new(self.parse_expression(precedence));
