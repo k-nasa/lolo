@@ -177,8 +177,16 @@ impl Parser {
         self.current_token.token_type == *t
     }
 
+    fn current_precedence(&self) -> Precedence {
+        Precedence::from_token(&self.current_token.token_type)
+    }
+
     fn peek_token_is(&self, t: &TokenType) -> bool {
         self.peek_token.token_type == *t
+    }
+
+    fn peek_precedence(&self) -> Precedence {
+        Precedence::from_token(&self.peek_token.token_type)
     }
 
     fn next_token(&mut self) {
