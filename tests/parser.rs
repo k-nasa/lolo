@@ -122,6 +122,45 @@ mod test {
         }
     }
 
+    #[test]
+    fn is_should_parse_infix_expression() {
+        let prefix_tests = vec![
+            ("5 + 5;", 5, "+", 5),
+            ("5 - 5;", 5, "-", 5),
+            ("5 * 5;", 5, "*", 5),
+            ("5 / 5;", 5, "/", 5),
+            ("5 < 5;", 5, "<", 5),
+            ("5 > 5;", 5, ">", 5),
+            ("5 == 5;", 5, "==", 5),
+            ("5 != 5;", 5, "!=", 5),
+        ];
+
+        for prefix in prefix_tests {
+            let lexer = Lexer::new(prefix.0);
+            let mut parser = Parser::new(lexer);
+            let program = parser.parse_program();
+
+            println!("{:?}", program.statements);
+            assert_eq!(program.statements.len(), 1);
+
+            let stmt = program.statements.first().unwrap();
+
+            let expression = match stmt {
+                Statements::ExpressionStatement(x) => &x.expression,
+                _ => panic!(),
+            };
+
+            let expression = match expression {
+                Expression::InfixExpression(x) => x,
+                _ => panic!(),
+            };
+
+            assert_eq!(expression.operator, prefix.2);
+            test_integer_literal(&expression.right, prefix.1);
+            test_integer_literal(&expression.left, prefix.3);
+        }
+    }
+
     fn test_let_statement(stmt: &Statements, name: &str) {
         assert_eq!(stmt.token_literal(), "let");
 
