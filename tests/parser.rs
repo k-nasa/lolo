@@ -160,6 +160,32 @@ mod test {
         }
     }
 
+    #[test]
+    fn is_should_operator_precedence_parsing() {
+        let prefix_tests = vec![
+            ("-a * b", "((-a) * b)"),
+            ("!-a * b", "((!(-a)) * b)"),
+            ("a + b + c", "((a + b) + c)"),
+            ("a * b * c", "((a * b) * c)"),
+            ("a + b * c", "(a + (b * c))"),
+            ("a + b * c - d / e - f", "(((a + (b * c)) - (d / e)) - f)"),
+            ("5 > 4 == 4 < 9", "((5 > 4) == (4 < 9))"),
+            (
+                "3 - 4 * 5 == 2 * 90 + 9",
+                "((3 - (4 * 5)) == ((2 * 90) + 9))",
+            ),
+        ];
+
+        for expected in prefix_tests {
+            let lexer = Lexer::new(expected.0);
+            let mut parser = Parser::new(lexer);
+            let program = parser.parse_program();
+
+            let actual = program.to_string();
+            assert_eq!(actual, expected.1)
+        }
+    }
+
     fn test_let_statement(stmt: &Statements, name: &str) {
         assert_eq!(stmt.token_literal(), "let");
 
