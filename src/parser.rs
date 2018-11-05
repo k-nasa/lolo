@@ -155,6 +155,7 @@ impl Parser {
             BANG | MINUS => Some(self.parse_prefix_expression()),
             TRUE | FALSE => Some(self.parse_boolean()),
             LPAREN => self.parse_group_expression(),
+            IF => self.parse_if_expression(),
             _ => None,
         }
     }
@@ -234,6 +235,48 @@ impl Parser {
         }
 
         Some(exp)
+    }
+
+    fn parse_if_expression(&mut self) -> Option<Expression> {
+        let token = self.current_token.clone();
+
+        if !self.expect_peek_token(TokenType::LPAREN) {
+            // TODO add error message
+            return None;
+        }
+
+        self.next_token();
+        let condition = self.parse_expression(Precedence::LOWEST);
+
+        if !self.expect_peek_token(TokenType::RPAREN) {
+            // TODO add error message
+            return None;
+        }
+
+        if !self.expect_peek_token(TokenType::LBRACE) {
+            // TODO add error message
+            return None;
+        }
+
+        let consequence = self.parse_block_statement();
+        let mut alternative = None;
+
+        if self.peek_token_is(&TokenType::ELSE) {
+            self.next_token();
+
+            if !self.expect_peek_token(TokenType::LBRACE) {
+                return None;
+            }
+
+            alternative = Some(self.parse_block_statement());
+        }
+
+        Some(Expression::IfExpression(IfExpression {
+            token,
+            condition: Box::new(condition),
+            consequence,
+            alternative,
+        }))
     }
 
     fn current_token_is(&self, t: &TokenType) -> bool {
