@@ -152,6 +152,7 @@ impl Parser {
             INT => Some(self.parse_integer_literal()),
             BANG | MINUS => Some(self.parse_prefix_expression()),
             TRUE | FALSE => Some(self.parse_boolean()),
+            LPAREN => self.parse_group_expression(),
             _ => None,
         }
     }
@@ -219,6 +220,18 @@ impl Parser {
             operator,
             right,
         })
+    }
+
+    fn parse_group_expression(&mut self) -> Option<Expression> {
+        self.next_token();
+
+        let exp = self.parse_expression(Precedence::LOWEST);
+
+        if !self.expect_peek_token(TokenType::RPAREN) {
+            return None;
+        }
+
+        Some(exp)
     }
 
     fn current_token_is(&self, t: &TokenType) -> bool {
