@@ -231,6 +231,7 @@ impl Parser {
         let exp = self.parse_expression(Precedence::LOWEST);
 
         if !self.expect_peek_token(TokenType::RPAREN) {
+            // TODO add error message
             return None;
         }
 
