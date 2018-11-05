@@ -267,9 +267,9 @@ impl Parser {
 
             if !self.expect_peek_token(TokenType::LBRACE) {
                 return None;
+            } else {
+                alternative = Some(self.parse_block_statement());
             }
-
-            alternative = Some(self.parse_block_statement());
         }
 
         Some(Expression::IfExpression(IfExpression {
