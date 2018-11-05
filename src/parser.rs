@@ -145,11 +145,13 @@ impl Parser {
     }
 
     fn parse_prefix(&mut self, token_type: TokenType) -> Option<Expression> {
+        use super::token::TokenType::*;
+
         match token_type {
-            TokenType::IDENT => Some(self.parse_identifier()),
-            TokenType::INT => Some(self.parse_integer_literal()),
-            TokenType::BANG => Some(self.parse_prefix_expression()),
-            TokenType::MINUS => Some(self.parse_prefix_expression()),
+            IDENT => Some(self.parse_identifier()),
+            INT => Some(self.parse_integer_literal()),
+            BANG | MINUS => Some(self.parse_prefix_expression()),
+            TRUE | FALSE => Some(self.parse_boolean()),
             _ => None,
         }
     }
@@ -194,6 +196,13 @@ impl Parser {
         Expression::IntegerLiteral(IntegerLiteral {
             token: self.current_token.clone(),
             value: self.current_token.literal.parse().unwrap(),
+        })
+    }
+
+    fn parse_boolean(&self) -> Expression {
+        Expression::Boolean(Boolean {
+            token: self.current_token.clone(),
+            value: self.current_token_is(&TokenType::TRUE),
         })
     }
 
