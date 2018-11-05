@@ -19,6 +19,25 @@ enum Precedence {
     CALL,
 }
 
+impl Precedence {
+    pub fn from_token(token: &TokenType) -> Precedence {
+        use self::Precedence::*;
+        use super::token::TokenType::*;
+
+        match token {
+            EQ => EQUALS,
+            NOTEQ => EQUALS,
+            GT => LESSGREATER,
+            LT => LESSGREATER,
+            PLUS => SUM,
+            MINUS => SUM,
+            SLASH => PRODUCT,
+            ASTERISK => PRODUCT,
+            _ => LOWEST,
+        }
+    }
+}
+
 impl Parser {
     pub fn new(lexer: Lexer) -> Self {
         let mut parser = Parser {
