@@ -144,6 +144,35 @@ impl Parser {
         }
     }
 
+    fn parse_infix(&mut self, token_type: TokenType, left: Expression) -> Option<Expression> {
+        use super::token::TokenType::*;
+
+        match token_type {
+            PLUS | MINUS | SLASH | ASTERISK | EQ | NOTEQ | LT | GT => {
+                Some(self.parse_infix_expression(left))
+            }
+            _ => None,
+        }
+    }
+
+    fn parse_infix_expression(&mut self, left: Expression) -> Expression {
+        let token = self.current_token.clone();
+        let operator = self.current_token.literal.clone();
+        let left = Box::new(left);
+
+        let precedence = self.current_precedence();
+        self.next_token();
+
+        let right = Box::new(self.parse_expression(precedence));
+
+        Expression::InfixExpression(InfixExpression {
+            token,
+            operator,
+            left,
+            right,
+        })
+    }
+
     fn parse_identifier(&self) -> Expression {
         Expression::Identifier(Identifier {
             token: self.current_token.clone(),
