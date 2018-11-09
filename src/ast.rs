@@ -210,6 +210,29 @@ impl BlockStatement {
     }
 }
 
+#[derive(Debug, Clone, Default)]
+struct FunctionLiteral {
+    token: Token,
+    parameters: Vec<Identifier>,
+    body: BlockStatement,
+}
+
+impl FunctionLiteral {
+    pub fn to_string(&self) -> String {
+        let mut return_string = String::new();
+        for param in &self.parameters {
+            return_string.push_str(&param.value.to_string());
+            return_string.push(',');
+        }
+
+        format!(
+            "{}({}) {}",
+            self.token.literal,
+            return_string,
+            self.body.to_string()
+        )
+    }
+}
 impl Node for Identifier {
     fn token_literal(&self) -> String {
         self.token.literal.clone()
