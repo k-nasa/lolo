@@ -107,6 +107,7 @@ pub enum Expression {
     InfixExpression(InfixExpression),
     Boolean(Boolean),
     IfExpression(IfExpression),
+    FunctionLiteral(FunctionLiteral),
     ILLEGAL,
 }
 
@@ -211,10 +212,10 @@ impl BlockStatement {
 }
 
 #[derive(Debug, Clone, Default)]
-struct FunctionLiteral {
-    token: Token,
-    parameters: Vec<Identifier>,
-    body: BlockStatement,
+pub struct FunctionLiteral {
+    pub token: Token,
+    pub parameters: Vec<Identifier>,
+    pub body: BlockStatement,
 }
 
 impl FunctionLiteral {

@@ -156,6 +156,7 @@ impl Parser {
             TRUE | FALSE => Some(self.parse_boolean()),
             LPAREN => self.parse_group_expression(),
             IF => self.parse_if_expression(),
+            FUNCTION => self.parse_function_literal(),
             _ => None,
         }
     }
