@@ -253,6 +253,35 @@ mod test {
         assert_eq!(expression.alternative.is_none(), true);
     }
 
+    #[test]
+    fn is_should_parse_function_literal() {
+        let input = "fn(x, y) { x + y; }";
+
+        let lexter = Lexer::new(input);
+        let mut parser = Parser::new(lexter);
+        let program = parser.parse_program();
+
+        assert_eq!(program.statements.len(), 1);
+
+        let stmt = program.statements.first().unwrap();
+        let stmt = match stmt {
+            Statements::ExpressionStatement(x) => x.expression.clone(),
+            _ => panic!(),
+        };
+
+        let function = match stmt {
+            Expression::FunctionLiteral(x) => x.clone(),
+            _ => panic!(),
+        };
+
+        assert_eq!(function.parameters.len(), 2);;
+
+        assert_eq!(function.parameters[0].value, "x");
+        assert_eq!(function.parameters[1].value, "y");
+
+        assert_eq!(function.body.statements.len(), 1);
+    }
+
     fn test_let_statement(stmt: &Statements, name: &str) {
         assert_eq!(stmt.token_literal(), "let");
 
