@@ -296,6 +296,31 @@ impl Parser {
         BlockStatement { token, statements }
     }
 
+    fn parse_function_literal(&mut self) -> Option<Expression> {
+        let token = self.current_token.clone();
+
+        if !self.expect_peek_token(TokenType::LPAREN) {
+            return None;
+        };
+
+        let parameters = match self.parse_function_parameters() {
+            Some(x) => x,
+            None => return None,
+        };
+
+        if !self.expect_peek_token(TokenType::LBRACE) {
+            return None;
+        };
+
+        let body = self.parse_block_statement();
+
+        Some(Expression::FunctionLiteral(FunctionLiteral {
+            token,
+            parameters,
+            body,
+        }))
+    }
+
     fn parse_function_parameters(&mut self) -> Option<Vec<Identifier>> {
         let mut identifiers = Vec::new();
 
