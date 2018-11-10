@@ -296,6 +296,39 @@ impl Parser {
         BlockStatement { token, statements }
     }
 
+    fn parse_function_parameters(&mut self) -> Option<Vec<Identifier>> {
+        let mut identifiers = Vec::new();
+
+        if self.peek_token_is(&TokenType::RPAREN) {
+            self.next_token();
+            return Some(identifiers);
+        };
+
+        self.next_token();
+
+        identifiers.push(Identifier {
+            token: self.current_token.clone(),
+            value: self.current_token.literal.clone(),
+        });
+
+        while self.peek_token_is(&TokenType::COMMA) {
+            self.next_token();
+            self.next_token();
+            identifiers.push(Identifier {
+                token: self.current_token.clone(),
+                value: self.current_token.literal.clone(),
+            });
+        }
+
+        if !self.expect_peek_token(TokenType::RPAREN) {
+            println!("{:?}", self.current_token);
+            println!("{:?}", self.peek_token);
+            return None;
+        }
+
+        Some(identifiers)
+    }
+
     fn current_token_is(&self, t: &TokenType) -> bool {
         self.current_token.token_type == *t
     }
