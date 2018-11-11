@@ -8,24 +8,28 @@ mod test {
 
     #[test]
     fn is_should_parse_let_statement() {
-        let input = "
-            let x = 5;
-            let y = 10;
-            let hoge = 89898989;
-        ";
+        let input = vec![
+            ("let x = 5;", "x", "5"),
+            ("let y = 10;", "y", "10"),
+            ("let hoge = true;", "hoge", "true"),
+        ];
 
-        let lexer = Lexer::new(input);
-        let mut parser = Parser::new(lexer);
-        let program = parser.parse_program();
+        for test in input {
+            let lexer = Lexer::new(test.0);
+            let mut parser = Parser::new(lexer);
+            let program = parser.parse_program();
 
-        assert_eq!(program.statements.len(), 3);
+            assert_eq!(program.statements.len(), 1);
 
-        let expect_names = ["x", "y", "hoge"];
+            let stmt = &program.statements[0];
+            test_let_statement(stmt, test.1);
 
-        for (i, name) in expect_names.iter().enumerate() {
-            let smtm = &program.statements[i];
+            let let_stmt = match stmt {
+                Statements::LetStatement(x) => x.clone(),
+                _ => panic!(),
+            };
 
-            test_let_statement(smtm, name);
+            assert_eq!(let_stmt.value.to_string(), test.2);
         }
     }
 
