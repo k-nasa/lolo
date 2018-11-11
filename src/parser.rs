@@ -1,6 +1,5 @@
 use super::ast::*;
-use super::lexer::*;
-use super::token::*;
+use super::lexer::{token::*, *};
 
 #[derive(Debug)]
 pub struct Parser {
@@ -23,7 +22,7 @@ enum Precedence {
 impl Precedence {
     pub fn from_token(token: &TokenType) -> Precedence {
         use self::Precedence::*;
-        use super::token::TokenType::*;
+        use super::lexer::token::TokenType::*;
 
         match token {
             EQ => EQUALS,
@@ -149,7 +148,7 @@ impl Parser {
     }
 
     fn parse_prefix(&mut self, token_type: TokenType) -> Option<Expression> {
-        use super::token::TokenType::*;
+        use super::lexer::token::TokenType::*;
 
         match token_type {
             IDENT => Some(self.parse_identifier()),
@@ -164,7 +163,7 @@ impl Parser {
     }
 
     fn parse_infix(&mut self, token_type: TokenType, left: Expression) -> Expression {
-        use super::token::TokenType::*;
+        use super::lexer::token::TokenType::*;
 
         match token_type {
             PLUS | MINUS | SLASH | ASTERISK | EQ | NOTEQ | LT | GT => {

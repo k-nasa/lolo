@@ -2,8 +2,8 @@ extern crate lolo;
 
 #[cfg(test)]
 mod tests {
+    use lolo::lexer::token::TokenType::*;
     use lolo::lexer::Lexer;
-    use lolo::token::TokenType::*;
 
     #[test]
     fn is_should_analysis_of_arithmetic_symbols() {

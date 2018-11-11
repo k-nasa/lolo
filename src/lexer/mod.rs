@@ -1,4 +1,6 @@
-use super::token::{Token, TokenType::*};
+pub mod token;
+
+use self::token::{Token, TokenType::*};
 use super::utils::*;
 use std::string::ToString;
 
