@@ -1,4 +1,6 @@
-use super::ast::*;
+pub mod ast;
+
+use self::ast::*;
 use super::lexer::{token::*, *};
 
 #[derive(Debug)]

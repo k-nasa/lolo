@@ -2,8 +2,8 @@ extern crate lolo;
 
 #[cfg(test)]
 mod test {
-    use lolo::ast::*;
     use lolo::lexer::Lexer;
+    use lolo::parser::ast::*;
     use lolo::parser::Parser;
 
     #[test]
