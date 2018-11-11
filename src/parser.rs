@@ -356,6 +356,40 @@ impl Parser {
         Some(identifiers)
     }
 
+    fn parse_call_expression(&mut self, function: Expression) -> Expression {
+        let arguments = self.parse_call_arguments();
+
+        Expression::CallExpression(CallExpression {
+            token: self.current_token.clone(),
+            function: Box::new(function),
+            arguments,
+        })
+    }
+
+    fn parse_call_arguments(&mut self) -> Vec<Expression> {
+        let mut arguments = Vec::new();
+
+        if self.peek_token_is(&TokenType::RPAREN) {
+            self.next_token();
+            return arguments;
+        };
+
+        self.next_token();
+        arguments.push(self.parse_expression(&Precedence::LOWEST));
+
+        while self.peek_token_is(&TokenType::COMMA) {
+            self.next_token();
+            self.next_token();
+            arguments.push(self.parse_expression(&Precedence::LOWEST));
+        }
+
+        if !self.expect_peek_token(TokenType::RPAREN) {
+            panic!("expected: ), but get {}", self.peek_token.literal)
+        }
+
+        arguments
+    }
+
     fn current_token_is(&self, t: &TokenType) -> bool {
         self.current_token.token_type == *t
     }

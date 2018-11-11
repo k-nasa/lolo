@@ -282,6 +282,30 @@ mod test {
         assert_eq!(function.body.statements.len(), 1);
     }
 
+    #[test]
+    fn is_should_parse_call_expression() {
+        let input = "call(1, 2, 3, 4 * 5 * 6)";
+
+        let lexter = Lexer::new(input);
+        let mut parser = Parser::new(lexter);
+        let program = parser.parse_program();
+
+        assert_eq!(program.statements.len(), 1);
+
+        let stmt = program.statements.first().unwrap();
+        let stmt = match stmt {
+            Statements::ExpressionStatement(x) => x.expression.clone(),
+            _ => panic!(),
+        };
+
+        let call = match stmt {
+            Expression::CallExpression(x) => x.clone(),
+            _ => panic!(),
+        };
+
+        assert_eq!(call.arguments.len(), 4);
+    }
+
     fn test_let_statement(stmt: &Statements, name: &str) {
         assert_eq!(stmt.token_literal(), "let");
 
