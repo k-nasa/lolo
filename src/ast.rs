@@ -108,6 +108,7 @@ pub enum Expression {
     Boolean(Boolean),
     IfExpression(IfExpression),
     FunctionLiteral(FunctionLiteral),
+    CallExpression(CallExpression),
     ILLEGAL,
 }
 
@@ -234,6 +235,25 @@ impl FunctionLiteral {
         )
     }
 }
+
+#[derive(Debug, Clone, Default)]
+pub struct CallExpression {
+    pub token: Token,
+    pub function: Box<Expression>,
+    pub arguments: Vec<Expression>,
+}
+
+impl CallExpression {
+    pub fn to_string(&self) -> String {
+        let mut return_string = String::new();
+        for arg in &self.arguments {
+            return_string.push_str(&arg.to_string());
+        }
+
+        format!("{}({})", self.function.to_string(), return_string,)
+    }
+}
+
 impl Node for Identifier {
     fn token_literal(&self) -> String {
         self.token.literal.clone()
