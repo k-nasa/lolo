@@ -38,7 +38,7 @@ pub enum Statements {
 }
 
 impl Statements {
-    fn to_string(&self) -> String {
+    pub fn to_string(&self) -> String {
         match self {
             Statements::LetStatement(ref x) => x.to_string(),
             Statements::ReturnStatement(ref x) => x.to_string(),
@@ -65,7 +65,7 @@ pub struct LetStatement {
 }
 
 impl LetStatement {
-    fn to_string(&self) -> String {
+    pub fn to_string(&self) -> String {
         format!(
             "{} {} = {};",
             self.token.literal,
@@ -78,12 +78,12 @@ impl LetStatement {
 #[derive(Debug, Clone)]
 pub struct ReturnStatement {
     pub token: Token,
-    pub expression: Expression,
+    pub return_value: Expression,
 }
 
 impl ReturnStatement {
-    fn to_string(&self) -> String {
-        format!("{} {};", self.token.literal, self.expression.to_string(),)
+    pub fn to_string(&self) -> String {
+        format!("{} {};", self.token.literal, self.return_value.to_string(),)
     }
 }
 
@@ -94,7 +94,7 @@ pub struct ExpressionStatement {
 }
 
 impl ExpressionStatement {
-    fn to_string(&self) -> String {
+    pub fn to_string(&self) -> String {
         self.expression.to_string()
     }
 }
@@ -113,7 +113,7 @@ pub enum Expression {
 }
 
 impl Expression {
-    fn to_string(&self) -> String {
+    pub fn to_string(&self) -> String {
         match self {
             Expression::Identifier(ref x) => x.value.to_string(),
             Expression::IntegerLiteral(ref x) => x.token.literal.to_string(),
