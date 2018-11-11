@@ -34,6 +34,7 @@ impl Precedence {
             MINUS => SUM,
             SLASH => PRODUCT,
             ASTERISK => PRODUCT,
+            LPAREN => CALL,
             _ => LOWEST,
         }
     }
@@ -168,6 +169,7 @@ impl Parser {
             PLUS | MINUS | SLASH | ASTERISK | EQ | NOTEQ | LT | GT => {
                 self.parse_infix_expression(left)
             }
+            LPAREN => self.parse_call_expression(Expression::default()),
             _ => left,
         }
     }
