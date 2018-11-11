@@ -1,26 +1,20 @@
 use super::lexer::Lexer;
-use super::token::TokenType::*;
+use super::parser::Parser;
+use std::io;
+use std::io::Write;
 use std::string::*;
 
 pub fn run() {
-    const PROMPT: &str = &">>";
-
     loop {
+        print!(">> ");
+        io::stdout().flush();
+
         let input: String = read();
-        let mut lexer = Lexer::new(input.clone());
+        let lexer = Lexer::new(input.clone());
+        let mut parser = Parser::new(lexer);
+        let program = parser.parse_program();
 
-        if input.is_empty() {
-            return;
-        }
-
-        let mut token = lexer.next_token();
-
-        while token.token_type != EOF {
-            println!("{:?}", token);
-            token = lexer.next_token();
-        }
-        println!("{:?}", token);
-        println!("{}", PROMPT);
+        println!("{}", program.to_string());
     }
 }
 
