@@ -95,8 +95,7 @@ impl Parser {
 
         let value = self.parse_expression(&Precedence::LOWEST);
 
-        // WIP
-        while self.current_token.token_type != TokenType::SEMICOLON {
+        if self.peek_token_is(&TokenType::SEMICOLON) {
             self.next_token();
         }
 
