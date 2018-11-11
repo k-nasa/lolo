@@ -103,18 +103,20 @@ impl Parser {
     }
 
     fn parse_return_statement(&mut self) -> Statements {
-        let return_statement = ReturnStatement {
-            token: self.current_token.clone(),
-            expression: Expression::default(),
-        };
+        let token = self.current_token.clone();
 
         self.next_token();
+
+        let return_value = self.parse_expression(&Precedence::LOWEST);
 
         while !self.current_token_is(&TokenType::SEMICOLON) {
             self.next_token();
         }
 
-        Statements::ReturnStatement(return_statement)
+        Statements::ReturnStatement(ReturnStatement {
+            token,
+            return_value,
+        })
     }
 
     fn parse_expression_statement(&mut self) -> Statements {
