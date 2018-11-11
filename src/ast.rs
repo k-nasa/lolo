@@ -127,6 +127,9 @@ impl Expression {
                 x.right.to_string()
             ),
             Expression::Boolean(ref x) => x.token.literal.to_string(),
+            Expression::FunctionLiteral(x) => x.to_string(),
+            Expression::IfExpression(x) => x.to_string(),
+            Expression::CallExpression(x) => x.to_string(),
             _ => String::new(),
         }
     }
