@@ -4,7 +4,7 @@ enum ObjectType {
     Null,
 }
 
-trait Object {
+pub trait Object {
     fn object_type() -> ObjectType;
     fn inspect(&self) -> String;
 }
