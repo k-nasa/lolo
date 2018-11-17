@@ -1,50 +1,21 @@
-enum ObjectType {
-    Integer,
-    Boolean,
+#[derive(Debug, PartialEq, Eq)]
+pub enum ObjectType {
+    Integer(i64),
+    Boolean(bool),
     Null,
 }
 
-pub trait Object {
-    fn object_type() -> ObjectType;
-    fn inspect(&self) -> String;
+#[derive(Debug, PartialEq, Eq)]
+pub struct Object {
+    pub object_type: ObjectType,
 }
 
-pub struct Integer {
-    pub value: i64,
-}
-
-impl Object for Integer {
-    fn object_type() -> ObjectType {
-        ObjectType::Integer
-    }
-
-    fn inspect(&self) -> String {
-        format!("{}", self.value)
-    }
-}
-
-pub struct Boolean {
-    pub value: bool,
-}
-
-impl Object for Boolean {
-    fn object_type() -> ObjectType {
-        ObjectType::Boolean
-    }
-
-    fn inspect(&self) -> String {
-        format!("{}", self.value)
-    }
-}
-
-pub struct Null;
-
-impl Object for Null {
-    fn object_type() -> ObjectType {
-        ObjectType::Null
-    }
-
-    fn inspect(&self) -> String {
-        format!("Null")
+impl Object {
+    pub fn inspect(&self) -> String {
+        match self.object_type {
+            ObjectType::Integer(x) => x.to_string(),
+            ObjectType::Boolean(x) => x.to_string(),
+            ObjectType::Null => format!("Null"),
+        }
     }
 }
