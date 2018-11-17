@@ -320,7 +320,7 @@ mod test {
         };
 
         assert_eq!(let_stmt.name.value, name);
-        assert_eq!(let_stmt.name.token_literal(), name);
+        assert_eq!(let_stmt.name.token.literal, name);
     }
 
     fn test_integer_literal(expression: &Expression, value: i64) {
