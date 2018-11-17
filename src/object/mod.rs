@@ -4,7 +4,7 @@ enum ObjectType {
 
 trait Object {
     fn object_type() -> ObjectType;
-    fn inspect() -> String;
+    fn inspect(&self) -> String;
 }
 
 pub struct Integer {
@@ -16,7 +16,8 @@ impl Object for Integer {
         ObjectType::Integer
     }
 
-    fn inspect() -> String {
-        unimplemented!()
+    fn inspect(&self) -> String {
+        format!("{}", self.value)
+    }
     }
 }
