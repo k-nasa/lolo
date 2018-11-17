@@ -1,6 +1,7 @@
 enum ObjectType {
     Integer,
     Boolean,
+    Null,
 }
 
 trait Object {
@@ -33,5 +34,17 @@ impl Object for Boolean {
 
     fn inspect(&self) -> String {
         format!("{}", self.value)
+    }
+}
+
+pub struct Null;
+
+impl Object for Null {
+    fn object_type() -> ObjectType {
+        ObjectType::Null
+    }
+
+    fn inspect(&self) -> String {
+        format!("Null")
     }
 }
