@@ -1,6 +1,6 @@
 pub mod ast;
 
-use self::ast::{*, statements::*};
+use self::ast::{*, statements::*, expressions::*};
 use super::lexer::{token::*, *};
 
 #[derive(Debug)]
