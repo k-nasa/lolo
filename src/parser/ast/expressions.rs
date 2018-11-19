@@ -31,7 +31,7 @@ impl Expression {
             Expression::FunctionLiteral(x) => x.to_string(),
             Expression::IfExpression(x) => x.to_string(),
             Expression::CallExpression(x) => x.to_string(),
-            _ => String::new(),
+            Expression::ILLEGAL => panic!()
         }
     }
 }
