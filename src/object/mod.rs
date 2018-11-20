@@ -19,3 +19,7 @@ impl Object {
         }
     }
 }
+
+pub const TRUE: Object = Object { object_type: ObjectType::Boolean(true) };
+pub const FALSE: Object = Object { object_type: ObjectType::Boolean(false) };
+pub const NULL: Object = Object { object_type: ObjectType::Null };
