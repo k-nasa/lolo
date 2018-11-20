@@ -44,3 +44,12 @@ impl Program {
     }
 }
 
+impl Node for Program {
+    fn token_literal(&self) -> String {
+        unimplemented!()
+    }
+
+    fn to_ast(&self) -> AST {
+        AST::Program(self.clone())
+    }
+}
