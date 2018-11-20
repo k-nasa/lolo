@@ -15,6 +15,7 @@ pub enum AST {
 
 pub trait Node {
     fn token_literal(&self) -> String;
+    fn to_ast(&self) -> AST;
 }
 
 pub trait Statement: Node {
