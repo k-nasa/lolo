@@ -5,6 +5,14 @@ use crate::lexer::token::Token;
 use self::statements::*;
 use self::expressions::*;
 
+#[derive(Debug, Clone)]
+pub enum AST {
+    Program(Program),
+    ExpressionStatement(ExpressionStatement),
+    IntegerLiteral(IntegerLiteral),
+    Identifier(Identifier),
+}
+
 pub trait Node {
     fn token_literal(&self) -> String;
 }
