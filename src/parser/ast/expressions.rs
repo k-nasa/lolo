@@ -39,8 +39,9 @@ impl Expression {
 impl Node for Expression {
     fn token_literal(&self) -> String { unimplemented!() }
 
-    fn to_ast(&self) -> AST { 
+    fn to_ast(&self) -> AST {
         match self {
+            Expression::PrefixExpression(x) => AST::PrefixExpression(x.clone()),
             Expression::IntegerLiteral(x) => AST::IntegerLiteral(x.clone()),
             Expression::Boolean(x) => AST::Boolean(x.clone()),
             _ => unimplemented!()

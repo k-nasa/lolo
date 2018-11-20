@@ -12,6 +12,7 @@ pub enum AST {
     IntegerLiteral(IntegerLiteral),
     Boolean(Boolean),
     Identifier(Identifier),
+    PrefixExpression(PrefixExpression),
 }
 
 pub trait Node {
