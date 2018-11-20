@@ -1,7 +1,9 @@
 use crate::object::*;
 use crate::parser::ast::*;
+use crate::parser::ast::statements::*;
+use crate::parser::ast::expressions::*;
 
-pub fn eval<N: Node>(node: N) -> Object {
+pub fn eval(node: impl Node) -> Object {
     println!("{:?}", node.to_ast());
 
     match node.to_ast() {
@@ -11,7 +13,6 @@ pub fn eval<N: Node>(node: N) -> Object {
             object_type: ObjectType::Integer(x.value),
         },
         _ => {
-            println!("{:?}", node.to_ast());
             panic!()
         }
     }
