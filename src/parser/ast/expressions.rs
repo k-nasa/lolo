@@ -65,6 +65,16 @@ pub struct IntegerLiteral {
     pub value: i64,
 }
 
+impl Node for IntegerLiteral{
+    fn token_literal(&self) -> String {
+        self.token.literal.clone()
+    }
+
+    fn to_ast(&self) -> AST {
+        AST::IntegerLiteral(self.clone())
+    }
+}
+
 #[derive(Debug, Clone, Default)]
 pub struct PrefixExpression {
     pub token: Token,
