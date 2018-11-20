@@ -9,7 +9,12 @@ mod test {
 
     #[test]
     fn is_should_eval_integer_expression() {
-        let test_cases = vec![("5", 5), ("10", 10)];
+        let test_cases = vec![
+            ("5", 5), 
+            ("-5", -5), 
+            ("10", 10),
+            ("-10", -10),
+        ];
 
         for t in test_cases {
             let evaluated = test_eval(t.0);
