@@ -36,6 +36,17 @@ impl Expression {
     }
 }
 
+impl Node for Expression {
+    fn token_literal(&self) -> String { unimplemented!() }
+
+    fn to_ast(&self) -> AST { 
+        match self {
+            Expression::IntegerLiteral(x) => AST::IntegerLiteral(x.clone()),
+            _ => unimplemented!()
+        }
+    }
+}
+
 impl Default for Expression {
     fn default() -> Expression {
         Expression::ILLEGAL
