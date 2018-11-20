@@ -25,6 +25,10 @@ impl Node for Statements {
             Statements::ExpressionStatement(ref x) => x.token.literal.clone(),
         }
     }
+
+    fn to_ast(&self) -> AST {
+        unimplemented!()
+    }
 }
 
 #[derive(Debug, Clone)]

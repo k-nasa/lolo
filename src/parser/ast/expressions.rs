@@ -183,6 +183,10 @@ impl Node for Identifier {
     fn token_literal(&self) -> String {
         self.token.literal.clone()
     }
+
+    fn to_ast(&self) -> AST {
+        AST::Identifier(self.clone())
+    }
 }
 
 impl Statement for Identifier {
