@@ -42,6 +42,7 @@ impl Node for Expression {
     fn to_ast(&self) -> AST { 
         match self {
             Expression::IntegerLiteral(x) => AST::IntegerLiteral(x.clone()),
+            Expression::Boolean(x) => AST::Boolean(x.clone()),
             _ => unimplemented!()
         }
     }

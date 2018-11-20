@@ -10,6 +10,7 @@ pub enum AST {
     Program(Program),
     ExpressionStatement(ExpressionStatement),
     IntegerLiteral(IntegerLiteral),
+    Boolean(Boolean),
     Identifier(Identifier),
 }
 

@@ -11,6 +11,9 @@ pub fn eval(node: impl Node) -> Result<Object> {
         AST::IntegerLiteral(x) => Ok(Object {
             object_type: ObjectType::Integer(x.value),
         }),
+        AST::Boolean(x) => Ok(Object {
+            object_type: ObjectType::Boolean(x.value)
+        }),
         _ => {
             panic!()
         }
