@@ -27,6 +27,22 @@ mod test {
         }
     }
 
+    #[test]
+    fn is_should_eval_bang_operator() {
+        let test_cases = vec![
+            ("!true", false),
+            ("!false", true),
+            ("!5", false),
+            ("!!5", true),
+            ("!!false", false),
+        ];
+
+        for t in test_cases {
+            let evaluated = test_eval(t.0);
+            test_boolean_object(evaluated, t.1);
+        }
+    }
+
 
     fn test_eval(input: &str) -> Object {
         let lexer = Lexer::new(input);
