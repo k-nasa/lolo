@@ -1,20 +1,23 @@
 use super::lexer::Lexer;
 use super::parser::Parser;
-use std::io;
+use super::evaluator::eval;
+use std::io::*;
 use std::io::Write;
 use std::string::*;
 
-pub fn run() {
+pub fn run() -> Result<()> {
     loop {
         print!(">> ");
-        io::stdout().flush();
+        stdout().flush()?;
 
         let input: String = read();
         let lexer = Lexer::new(input.clone());
         let mut parser = Parser::new(lexer);
         let program = parser.parse_program();
 
-        println!("{}", program.to_string());
+        let evalted = eval(program)?;
+
+        println!("{}", evalted.inspect());
     }
 }
 
