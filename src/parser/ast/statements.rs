@@ -73,3 +73,12 @@ impl ExpressionStatement {
     }
 }
 
+impl Node for ExpressionStatement  {
+    fn token_literal(&self) -> String {
+        self.token.literal.clone()
+    }
+
+    fn to_ast(&self) -> AST {
+        AST::ExpressionStatement(self.clone())
+    }
+}
