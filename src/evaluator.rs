@@ -38,10 +38,11 @@ fn eval_statement(stmts: Vec<Statements>) -> Result<Object> {
 }
 
 fn eval_prefix_expression(prefix_expression: PrefixExpression) -> Result<Object> {
-    let right = eval(*prefix_expression.right);
+    let right = eval(*prefix_expression.right)?;
 
     match prefix_expression.operator.as_str() {
-        "!" => Ok(eval_bang_operator(right?)),
+        "!" => Ok(eval_bang_operator(right)),
+        "-" => Ok(eval_minus_prefix(right)),
         _ => panic!(),
     }
 }
@@ -52,5 +53,13 @@ fn eval_bang_operator(right: Object) -> Object {
         ObjectType::Boolean(false) => TRUE,
         ObjectType::Null => TRUE,
         _ => FALSE,
+    }
+}
+
+fn eval_minus_prefix(right: Object) -> Object {
+    match right.object_type {
+        ObjectType::Integer(i) => Object { object_type: ObjectType::Integer(-i) },
+        ObjectType::Null => NULL,
+        _ => panic!("faild: eval minus prefix")
     }
 }
