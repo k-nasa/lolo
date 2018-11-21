@@ -17,9 +17,7 @@ pub fn eval(node: impl Node) -> Result<Object> {
         AST::Boolean(x) => Ok(Object {
             object_type: ObjectType::Boolean(x.value)
         }),
-        _ => {
-            panic!()
-        }
+        _ => unimplemented!(),
     }
 }
 
