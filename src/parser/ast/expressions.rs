@@ -42,6 +42,7 @@ impl Node for Expression {
     fn to_ast(&self) -> AST {
         match self {
             Expression::PrefixExpression(x) => AST::PrefixExpression(x.clone()),
+            Expression::InfixExpression(x) => AST::InfixExpression(x.clone()),
             Expression::IntegerLiteral(x) => AST::IntegerLiteral(x.clone()),
             Expression::Boolean(x) => AST::Boolean(x.clone()),
             _ => unimplemented!()
@@ -90,6 +91,16 @@ pub struct InfixExpression {
     pub operator: String,
     pub right: Box<Expression>,
     pub left: Box<Expression>,
+}
+
+impl Node for InfixExpression {
+    fn token_literal(&self) -> String {
+        self.token.literal.clone()
+    }
+
+    fn to_ast(&self) -> AST {
+        AST::InfixExpression(self.clone())
+    }
 }
 
 #[derive(Debug, Clone, Default)]

@@ -13,6 +13,7 @@ pub enum AST {
     Boolean(Boolean),
     Identifier(Identifier),
     PrefixExpression(PrefixExpression),
+    InfixExpression(InfixExpression),
 }
 
 pub trait Node {
