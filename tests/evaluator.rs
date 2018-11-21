@@ -10,10 +10,14 @@ mod test {
     #[test]
     fn is_should_eval_integer_expression() {
         let test_cases = vec![
-            ("5", 5), 
-            ("-5", -5), 
+            ("5", 5),
+            ("-5", -5),
             ("10", 10),
             ("-10", -10),
+            ("10 - 10", 0),
+            ("10 + 10", 20),
+            ("5 * (10 + 10)", 100),
+            ("5 * 10 + 10", 60),
         ];
 
         for t in test_cases {
