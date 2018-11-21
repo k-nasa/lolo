@@ -47,6 +47,17 @@ fn eval_prefix_expression(prefix_expression: PrefixExpression) -> Result<Object>
     }
 }
 
+fn eval_infix_expression(infix_expression: InfixExpression) -> Result<Object> {
+    let right = eval(*infix_expression.right)?;
+    let left = eval(*infix_expression.left)?;
+
+    if right.is_int() && left.is_int() {
+        return Ok(eval_integer_infix_expression(infix_expression.operator, right, left))
+    }
+
+    return Ok(NULL)
+}
+
 fn eval_bang_operator(right: Object) -> Object {
     match right.object_type {
         ObjectType::Boolean(true) => FALSE,
