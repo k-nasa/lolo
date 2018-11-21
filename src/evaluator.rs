@@ -10,6 +10,7 @@ pub fn eval(node: impl Node) -> Result<Object> {
         AST::Program(x) => eval_statement(x.statements),
         AST::ExpressionStatement(x) => eval(x.expression),
         AST::PrefixExpression(x)  => eval_prefix_expression(x),
+        AST::InfixExpression(x) => eval_infix_expression(x),
         AST::IntegerLiteral(x) => Ok(Object {
             object_type: ObjectType::Integer(x.value),
         }),
@@ -72,5 +73,15 @@ fn eval_minus_prefix(right: Object) -> Object {
         ObjectType::Integer(i) => Object { object_type: ObjectType::Integer(-i) },
         ObjectType::Null => NULL,
         _ => panic!("faild: eval minus prefix")
+    }
+}
+
+fn eval_integer_infix_expression(operator: String, right: Object, left: Object) -> Object {
+    match operator.as_str() {
+        "+" => Object { object_type: ObjectType::Integer(right.integer_value() + left.integer_value()) },
+        "-" => Object { object_type: ObjectType::Integer(right.integer_value() - left.integer_value()) },
+        "*" => Object { object_type: ObjectType::Integer(right.integer_value() * left.integer_value()) },
+        "/" => Object { object_type: ObjectType::Integer(right.integer_value() / left.integer_value()) },
+        _ => NULL,
     }
 }
