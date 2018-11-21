@@ -18,6 +18,20 @@ impl Object {
             ObjectType::Null => format!("Null"),
         }
     }
+
+    pub fn integer_value(&self) -> i64 {
+        match self.object_type {
+            ObjectType::Integer(x) => x,
+            _ => panic!("faild: Object.integer_value"),
+        }
+    }
+
+    pub fn is_int(&self) -> bool {
+        match self.object_type {
+            ObjectType::Integer(_) => true,
+            _ => false
+        }
+    }
 }
 
 pub const TRUE: Object = Object { object_type: ObjectType::Boolean(true) };
