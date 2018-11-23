@@ -45,8 +45,8 @@ impl Parser {
     pub fn new(lexer: Lexer) -> Self {
         let mut parser = Parser {
             lexer,
-            current_token: Token::new(TokenType::ILLEGAL, ""),
-            peek_token: Token::new(TokenType::ILLEGAL, ""),
+            current_token: Token::new(TokenType::ILLEGAL, &""),
+            peek_token: Token::new(TokenType::ILLEGAL, &""),
         };
 
         parser.next_token();

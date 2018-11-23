@@ -21,7 +21,7 @@ mod tests {
             (EOF, "\0"),
         ];
 
-        let mut l = Lexer::new(input);
+        let mut l = Lexer::new(&input);
 
         for (token_type, literal) in expects {
             let t = l.next_token();
@@ -70,7 +70,7 @@ mod tests {
             (EOF, "\0"),
         ];
 
-        let mut l = Lexer::new(input);
+        let mut l = Lexer::new(&input);
 
         for (token_type, literal) in expects {
             let t = l.next_token();
@@ -110,7 +110,7 @@ mod tests {
             (RBRACE, "}"),
         ];
 
-        let mut l = Lexer::new(input);
+        let mut l = Lexer::new(&input);
 
         for (token_type, literal) in expects {
             let t = l.next_token();
@@ -139,7 +139,7 @@ mod tests {
             (EOF, "\0"),
         ];
 
-        let mut l = Lexer::new(input);
+        let mut l = Lexer::new(&input);
 
         for (token_type, literal) in expects {
             let t = l.next_token();

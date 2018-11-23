@@ -13,7 +13,7 @@ pub struct Lexer {
 }
 
 impl Lexer {
-    pub fn new<T: ToString>(input: T) -> Self {
+    pub fn new<T: ToString>(input: &T) -> Self {
         let mut lexer = Lexer {
             input: input.to_string(),
             current_position: 0,
@@ -111,7 +111,7 @@ impl Lexer {
                     token_type: INT,
                 }
             }
-            ch => token = Token::new(Token::from_char(ch), self.current_ch),
+            ch => token = Token::new(Token::from_char(ch), &self.current_ch),
         };
 
         self.read_char();

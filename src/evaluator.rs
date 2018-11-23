@@ -39,8 +39,8 @@ fn eval_prefix_expression(prefix_expression: &PrefixExpression) -> Result<Object
     let right = eval(&*prefix_expression.right)?;
 
     match prefix_expression.operator.as_str() {
-        "!" => Ok(eval_bang_operator(right)),
-        "-" => Ok(eval_minus_prefix(right)),
+        "!" => Ok(eval_bang_operator(&right)),
+        "-" => Ok(eval_minus_prefix(&right)),
         _ => panic!(),
     }
 }
@@ -52,8 +52,8 @@ fn eval_infix_expression(infix_expression: &InfixExpression) -> Result<Object> {
     if right.is_int() && left.is_int() {
         return Ok(eval_integer_infix_expression(
             &infix_expression.operator,
-            right,
-            left,
+            &right,
+            &left,
         ));
     }
 
@@ -68,7 +68,7 @@ fn eval_infix_expression(infix_expression: &InfixExpression) -> Result<Object> {
     }
 }
 
-fn eval_bang_operator(right: Object) -> Object {
+fn eval_bang_operator(right: &Object) -> Object {
     match right.object_type {
         ObjectType::Boolean(true) => FALSE,
         ObjectType::Boolean(false) => TRUE,
@@ -77,7 +77,7 @@ fn eval_bang_operator(right: Object) -> Object {
     }
 }
 
-fn eval_minus_prefix(right: Object) -> Object {
+fn eval_minus_prefix(right: &Object) -> Object {
     match right.object_type {
         ObjectType::Integer(i) => Object {
             object_type: ObjectType::Integer(-i),
@@ -87,7 +87,7 @@ fn eval_minus_prefix(right: Object) -> Object {
     }
 }
 
-fn eval_integer_infix_expression(operator: &str, right: Object, left: Object) -> Object {
+fn eval_integer_infix_expression(operator: &str, right: &Object, left: &Object) -> Object {
     match operator {
         // integer operator
         "+" => Object::from_int(left.integer_value() + right.integer_value()),

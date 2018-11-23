@@ -62,7 +62,7 @@ mod test {
     }
 
     fn test_eval(input: &str) -> Object {
-        let lexer = Lexer::new(input);
+        let lexer = Lexer::new(&input);
         let mut parser = Parser::new(lexer);
         let program = parser.parse_program();
 

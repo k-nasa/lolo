@@ -17,7 +17,7 @@ pub fn run() -> Result<()> {
             break Ok(());
         }
 
-        let lexer = Lexer::new(input.clone());
+        let lexer = Lexer::new(&input);
         let mut parser = Parser::new(lexer);
         let program = parser.parse_program();
 

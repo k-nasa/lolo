@@ -3,7 +3,7 @@ extern crate lolo;
 #[cfg(test)]
 mod test {
     use lolo::lexer::Lexer;
-    use lolo::parser::ast::{*, statements::*, expressions::*};
+    use lolo::parser::ast::{expressions::*, statements::*, *};
     use lolo::parser::Parser;
 
     #[test]
@@ -15,7 +15,7 @@ mod test {
         ];
 
         for test in input {
-            let lexer = Lexer::new(test.0);
+            let lexer = Lexer::new(&test.0);
             let mut parser = Parser::new(lexer);
             let program = parser.parse_program();
 
@@ -41,7 +41,7 @@ mod test {
             return 89898989;
         ";
 
-        let lexer = Lexer::new(input);
+        let lexer = Lexer::new(&input);
         let mut parser = Parser::new(lexer);
         let program = parser.parse_program();
 
@@ -56,7 +56,7 @@ mod test {
     fn is_should_parse_identifier_expression() {
         let input = "foober;";
 
-        let lexer = Lexer::new(input);
+        let lexer = Lexer::new(&input);
         let mut parser = Parser::new(lexer);
         let program = parser.parse_program();
 
@@ -76,7 +76,7 @@ mod test {
     fn is_should_parse_integer_literal_expression() {
         let input = "5;";
 
-        let lexer = Lexer::new(input);
+        let lexer = Lexer::new(&input);
         let mut parser = Parser::new(lexer);
         let program = parser.parse_program();
 
@@ -97,7 +97,7 @@ mod test {
         let prefix_tests = vec![("!5;", "!", "5"), ("-15;", "-", "15")];
 
         for prefix in prefix_tests {
-            let lexer = Lexer::new(prefix.0);
+            let lexer = Lexer::new(&prefix.0);
             let mut parser = Parser::new(lexer);
             let program = parser.parse_program();
 
@@ -134,7 +134,7 @@ mod test {
         ];
 
         for prefix in prefix_tests {
-            let lexer = Lexer::new(prefix.0);
+            let lexer = Lexer::new(&prefix.0);
             let mut parser = Parser::new(lexer);
             let program = parser.parse_program();
 
@@ -182,7 +182,7 @@ mod test {
         ];
 
         for expected in prefix_tests {
-            let lexer = Lexer::new(expected.0);
+            let lexer = Lexer::new(&expected.0);
             let mut parser = Parser::new(lexer);
             let program = parser.parse_program();
 
@@ -200,7 +200,7 @@ mod test {
         ];
 
         for test in tests {
-            let lexer = Lexer::new(test.0);
+            let lexer = Lexer::new(&test.0);
             let mut parser = Parser::new(lexer);
             let program = parser.parse_program();
 
@@ -227,7 +227,7 @@ mod test {
     #[test]
     fn is_should_parse_if_expression() {
         let input = "if (x < y) { x }";
-        let lexer = Lexer::new(input);
+        let lexer = Lexer::new(&input);
         let mut parser = Parser::new(lexer);
         let program = parser.parse_program();
 
@@ -261,7 +261,7 @@ mod test {
     fn is_should_parse_function_literal() {
         let input = "fn(x, y) { x + y; }";
 
-        let lexter = Lexer::new(input);
+        let lexter = Lexer::new(&input);
         let mut parser = Parser::new(lexter);
         let program = parser.parse_program();
 
@@ -290,7 +290,7 @@ mod test {
     fn is_should_parse_call_expression() {
         let input = "call(1, 2, 3, 4 * 5 * 6)";
 
-        let lexter = Lexer::new(input);
+        let lexter = Lexer::new(&input);
         let mut parser = Parser::new(lexter);
         let program = parser.parse_program();
 
