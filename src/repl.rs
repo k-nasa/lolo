@@ -13,7 +13,6 @@ pub fn run() -> Result<()> {
         let input: String = read();
 
         if input == "exit" {
-            println!("God Bey...");
             break Ok(());
         }
 
