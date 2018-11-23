@@ -2,7 +2,6 @@ extern crate lolo;
 
 #[cfg(test)]
 mod test {
-    use lolo::evaluator::eval;
     use lolo::lexer::*;
     use lolo::object::*;
     use lolo::parser::*;
@@ -22,7 +21,7 @@ mod test {
 
         for t in test_cases {
             let evaluated = test_eval(t.0);
-            test_integer_object(evaluated, t.1);
+            test_integer_object(&evaluated, t.1);
         }
     }
 
@@ -32,7 +31,7 @@ mod test {
 
         for t in test_cases {
             let evaluated = test_eval(t.0);
-            test_boolean_object(evaluated, t.1);
+            test_boolean_object(&evaluated, t.1);
         }
     }
 
@@ -58,7 +57,7 @@ mod test {
 
         for t in test_cases {
             let evaluated = test_eval(t.0);
-            test_boolean_object(evaluated, t.1);
+            test_boolean_object(&evaluated, t.1);
         }
     }
 
@@ -70,12 +69,12 @@ mod test {
         lolo::evaluator::eval(program).expect("fald eval")
     }
 
-    fn test_integer_object(obj: Object, expected: i64) {
+    fn test_integer_object(obj: &Object, expected: i64) {
         assert_eq!(ObjectType::Integer(expected), obj.object_type);
         assert_eq!(expected.to_string(), obj.inspect());
     }
 
-    fn test_boolean_object(obj: Object, expected: bool) {
+    fn test_boolean_object(obj: &Object, expected: bool) {
         assert_eq!(ObjectType::Boolean(expected), obj.object_type);
         assert_eq!(expected.to_string(), obj.inspect());
     }

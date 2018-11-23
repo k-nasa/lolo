@@ -4,12 +4,12 @@ use crate::parser::ast::statements::*;
 use crate::parser::ast::*;
 use std::io::Result;
 
-pub fn eval(node: impl Node) -> Result<Object> {
+pub fn eval(node: &impl Node) -> Result<Object> {
     match node.to_ast() {
         AST::Program(x) => eval_statement(x.statements),
-        AST::ExpressionStatement(x) => eval(x.expression),
-        AST::PrefixExpression(x) => eval_prefix_expression(x),
-        AST::InfixExpression(x) => eval_infix_expression(x),
+        AST::ExpressionStatement(x) => eval(&x.expression),
+        AST::PrefixExpression(x) => eval_prefix_expression(&x),
+        AST::InfixExpression(x) => eval_infix_expression(&x),
         AST::IntegerLiteral(x) => Ok(Object {
             object_type: ObjectType::Integer(x.value),
         }),
@@ -27,7 +27,7 @@ fn eval_statement(stmts: Vec<Statements>) -> Result<Object> {
 
     for stmt in stmts {
         result = match stmt {
-            Statements::ExpressionStatement(x) => eval(x),
+            Statements::ExpressionStatement(x) => eval(&x),
             _ => panic!(),
         }
     }
@@ -35,8 +35,8 @@ fn eval_statement(stmts: Vec<Statements>) -> Result<Object> {
     result
 }
 
-fn eval_prefix_expression(prefix_expression: PrefixExpression) -> Result<Object> {
-    let right = eval(*prefix_expression.right)?;
+fn eval_prefix_expression(prefix_expression: &PrefixExpression) -> Result<Object> {
+    let right = eval(&*prefix_expression.right)?;
 
     match prefix_expression.operator.as_str() {
         "!" => Ok(eval_bang_operator(right)),
@@ -45,13 +45,13 @@ fn eval_prefix_expression(prefix_expression: PrefixExpression) -> Result<Object>
     }
 }
 
-fn eval_infix_expression(infix_expression: InfixExpression) -> Result<Object> {
-    let right = eval(*infix_expression.right)?;
-    let left = eval(*infix_expression.left)?;
+fn eval_infix_expression(infix_expression: &InfixExpression) -> Result<Object> {
+    let right = eval(&*infix_expression.right)?;
+    let left = eval(&*infix_expression.left)?;
 
     if right.is_int() && left.is_int() {
         return Ok(eval_integer_infix_expression(
-            infix_expression.operator,
+            &infix_expression.operator,
             right,
             left,
         ));
@@ -87,8 +87,8 @@ fn eval_minus_prefix(right: Object) -> Object {
     }
 }
 
-fn eval_integer_infix_expression(operator: String, right: Object, left: Object) -> Object {
-    match operator.as_str() {
+fn eval_integer_infix_expression(operator: &str, right: Object, left: Object) -> Object {
+    match operator {
         // integer operator
         "+" => Object::from_int(left.integer_value() + right.integer_value()),
         "-" => Object::from_int(left.integer_value() - right.integer_value()),
