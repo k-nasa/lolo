@@ -54,6 +54,14 @@ impl Object {
             _ => false,
         }
     }
+
+    pub fn is_truthy(&self) -> bool {
+        match self.object_type {
+            Null => false,
+            Boolean(false) => false,
+            _ => true,
+        }
+    }
 }
 
 pub const TRUE: Object = Object {
