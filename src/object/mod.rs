@@ -39,6 +39,13 @@ impl Object {
         }
     }
 
+    pub fn boolean_value(&self) -> bool {
+        match self.object_type {
+            ObjectType::Boolean(x) => x,
+            _ => panic!("faild: Object.boolean_value"),
+        }
+    }
+
     pub fn is_int(&self) -> bool {
         match self.object_type {
             ObjectType::Integer(_) => true,
