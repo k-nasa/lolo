@@ -44,6 +44,12 @@ mod test {
             ("!5", false),
             ("!!5", true),
             ("!!false", false),
+            ("1 < 2", true),
+            ("1 > 2", false),
+            ("1 == 1", true),
+            ("1 == 2", false),
+            ("1 != 1", false),
+            ("1 != 2", true),
         ];
 
         for t in test_cases {
@@ -51,7 +57,6 @@ mod test {
             test_boolean_object(evaluated, t.1);
         }
     }
-
 
     fn test_eval(input: &str) -> Object {
         let lexer = Lexer::new(input);
