@@ -15,7 +15,7 @@ impl Object {
         match self.object_type {
             ObjectType::Integer(x) => x.to_string(),
             ObjectType::Boolean(x) => x.to_string(),
-            ObjectType::Null => format!("Null"),
+            ObjectType::Null => "Null".to_string(),
         }
     }
 
