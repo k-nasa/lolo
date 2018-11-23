@@ -29,11 +29,17 @@ impl Object {
     pub fn is_int(&self) -> bool {
         match self.object_type {
             ObjectType::Integer(_) => true,
-            _ => false
+            _ => false,
         }
     }
 }
 
-pub const TRUE: Object = Object { object_type: ObjectType::Boolean(true) };
-pub const FALSE: Object = Object { object_type: ObjectType::Boolean(false) };
-pub const NULL: Object = Object { object_type: ObjectType::Null };
+pub const TRUE: Object = Object {
+    object_type: ObjectType::Boolean(true),
+};
+pub const FALSE: Object = Object {
+    object_type: ObjectType::Boolean(false),
+};
+pub const NULL: Object = Object {
+    object_type: ObjectType::Null,
+};

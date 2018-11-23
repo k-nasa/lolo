@@ -1,21 +1,20 @@
 use crate::object::*;
+use crate::parser::ast::expressions::*;
+use crate::parser::ast::statements::*;
 use crate::parser::ast::*;
 use std::io::Result;
-use crate::parser::ast::statements::*;
-use crate::parser::ast::expressions::*;
 
 pub fn eval(node: impl Node) -> Result<Object> {
-
     match node.to_ast() {
         AST::Program(x) => eval_statement(x.statements),
         AST::ExpressionStatement(x) => eval(x.expression),
-        AST::PrefixExpression(x)  => eval_prefix_expression(x),
+        AST::PrefixExpression(x) => eval_prefix_expression(x),
         AST::InfixExpression(x) => eval_infix_expression(x),
         AST::IntegerLiteral(x) => Ok(Object {
             object_type: ObjectType::Integer(x.value),
         }),
         AST::Boolean(x) => Ok(Object {
-            object_type: ObjectType::Boolean(x.value)
+            object_type: ObjectType::Boolean(x.value),
         }),
         _ => unimplemented!(),
     }
@@ -51,10 +50,14 @@ fn eval_infix_expression(infix_expression: InfixExpression) -> Result<Object> {
     let left = eval(*infix_expression.left)?;
 
     if right.is_int() && left.is_int() {
-        return Ok(eval_integer_infix_expression(infix_expression.operator, right, left))
+        return Ok(eval_integer_infix_expression(
+            infix_expression.operator,
+            right,
+            left,
+        ));
     }
 
-    return Ok(NULL)
+    return Ok(NULL);
 }
 
 fn eval_bang_operator(right: Object) -> Object {
