@@ -27,7 +27,20 @@ mod test {
 
     #[test]
     fn is_should_eval_boolean_expression() {
-        let test_cases = vec![("true", true), ("false", false)];
+        let test_cases = vec![
+            ("true", true),
+            ("false", false),
+            ("true == true", true),
+            ("true == false", false),
+            ("true != true", false),
+            ("true != false", true),
+            ("1 < 2", true),
+            ("1 > 2", false),
+            ("1 == 1", true),
+            ("1 == 2", false),
+            ("1 != 1", false),
+            ("1 != 2", true),
+        ];
 
         for t in test_cases {
             let evaluated = test_eval(t.0);
@@ -40,19 +53,9 @@ mod test {
         let test_cases = vec![
             ("!true", false),
             ("!false", true),
-            ("true == true", true),
-            ("true == false", false),
-            ("true != true", false),
-            ("true != false", true),
             ("!5", false),
             ("!!5", true),
             ("!!false", false),
-            ("1 < 2", true),
-            ("1 > 2", false),
-            ("1 == 1", true),
-            ("1 == 2", false),
-            ("1 != 1", false),
-            ("1 != 2", true),
         ];
 
         for t in test_cases {
