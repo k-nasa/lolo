@@ -87,6 +87,11 @@ fn eval_integer_infix_expression(operator: String, right: Object, left: Object) 
         "*" => Object::from_int(left.integer_value() * right.integer_value()),
         "/" => Object::from_int(left.integer_value() / right.integer_value()),
 
+        // boolean operator
+        "<" => Object::from_bool(left.integer_value() < right.integer_value()),
+        ">" => Object::from_bool(left.integer_value() > right.integer_value()),
+        "==" => Object::from_bool(left.integer_value() == right.integer_value()),
+        "!=" => Object::from_bool(left.integer_value() != right.integer_value()),
         _ => NULL,
     }
 }
