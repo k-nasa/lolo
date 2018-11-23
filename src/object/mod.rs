@@ -19,6 +19,7 @@ impl Object {
         }
     }
 
+    // FIXME fron_int, from_boolは一般化できそうな雰囲気isある
     pub fn from_int(integer: i64) -> Object {
         Object {
             object_type: ObjectType::Integer(integer),
