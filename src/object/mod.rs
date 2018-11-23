@@ -17,7 +17,7 @@ impl Object {
         match self.object_type {
             Integer(x) => x.to_string(),
             Boolean(x) => x.to_string(),
-            Null => "Null".to_string(),
+            Null => "null".to_string(),
         }
     }
 
