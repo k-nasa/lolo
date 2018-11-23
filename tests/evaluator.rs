@@ -41,6 +41,10 @@ mod test {
         let test_cases = vec![
             ("!true", false),
             ("!false", true),
+            ("true == true", true),
+            ("true == false", false),
+            ("true != true", false),
+            ("true != false", true),
             ("!5", false),
             ("!!5", true),
             ("!!false", false),

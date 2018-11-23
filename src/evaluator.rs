@@ -57,7 +57,15 @@ fn eval_infix_expression(infix_expression: InfixExpression) -> Result<Object> {
         ));
     }
 
-    return Ok(NULL);
+    match infix_expression.operator.as_str() {
+        "==" => Ok(Object::from_bool(
+            left.boolean_value() == right.boolean_value(),
+        )),
+        "!=" => Ok(Object::from_bool(
+            left.boolean_value() != right.boolean_value(),
+        )),
+        _ => Ok(NULL),
+    }
 }
 
 fn eval_bang_operator(right: Object) -> Object {
