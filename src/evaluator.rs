@@ -81,10 +81,12 @@ fn eval_minus_prefix(right: Object) -> Object {
 
 fn eval_integer_infix_expression(operator: String, right: Object, left: Object) -> Object {
     match operator.as_str() {
-        "+" => Object { object_type: ObjectType::Integer(right.integer_value() + left.integer_value()) },
-        "-" => Object { object_type: ObjectType::Integer(right.integer_value() - left.integer_value()) },
-        "*" => Object { object_type: ObjectType::Integer(right.integer_value() * left.integer_value()) },
-        "/" => Object { object_type: ObjectType::Integer(right.integer_value() / left.integer_value()) },
+        // integer operator
+        "+" => Object::from_int(left.integer_value() + right.integer_value()),
+        "-" => Object::from_int(left.integer_value() - right.integer_value()),
+        "*" => Object::from_int(left.integer_value() * right.integer_value()),
+        "/" => Object::from_int(left.integer_value() / right.integer_value()),
+
         _ => NULL,
     }
 }
