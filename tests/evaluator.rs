@@ -64,6 +64,22 @@ mod test {
         }
     }
 
+    #[test]
+    fn is_should_if_expressions() {
+        let test_cases = vec![
+            ("if (true) { 10 }", "10"),
+            ("if (false) { 10 }", "Null"),
+            ("if (1) { 10 }", "10"),
+            ("if (1 > 2) { 10 } else { 20 }", "20"),
+            ("if (1 < 2) { 10 } else { 20 }", "10"),
+        ];
+
+        for t in test_cases {
+            let evaluated = test_eval(t.0);
+            assert_eq!(t.1.to_string(), evaluated.inspect());
+        }
+    }
+
     fn test_eval(input: &str) -> Object {
         let lexer = Lexer::new(&input);
         let mut parser = Parser::new(lexer);
