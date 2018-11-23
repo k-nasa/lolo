@@ -12,7 +12,7 @@ pub fn run() -> Result<()> {
 
         let input: String = read();
 
-        if input == format!("exit") {
+        if input == "exit" {
             println!("God Bey...");
             break Ok(());
         }
