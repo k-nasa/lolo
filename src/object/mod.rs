@@ -19,6 +19,18 @@ impl Object {
         }
     }
 
+    pub fn from_int(integer: i64) -> Object {
+        Object {
+            object_type: ObjectType::Integer(integer),
+        }
+    }
+
+    pub fn from_bool(boolean: bool) -> Object {
+        Object {
+            object_type: ObjectType::Boolean(boolean),
+        }
+    }
+
     pub fn integer_value(&self) -> i64 {
         match self.object_type {
             ObjectType::Integer(x) => x,
