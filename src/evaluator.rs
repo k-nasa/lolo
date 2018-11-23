@@ -37,6 +37,18 @@ fn eval_statement(stmts: Vec<Statements>) -> Result<Object> {
     result
 }
 
+fn eval_if_expression(if_expression: &IfExpression) -> Result<Object> {
+    let condition = eval(&*if_expression.condition)?;
+
+    if condition.is_truthy() {
+        eval(&if_expression.consequence)
+    } else if let Some(alternative) = &if_expression.alternative {
+        eval(alternative)
+    } else {
+        Ok(NULL)
+    }
+}
+
 fn eval_prefix_expression(prefix_expression: &PrefixExpression) -> Result<Object> {
     let right = eval(&*prefix_expression.right)?;
 
