@@ -1,8 +1,8 @@
+use super::evaluator::eval;
 use super::lexer::Lexer;
 use super::parser::Parser;
-use super::evaluator::eval;
-use std::io::*;
 use std::io::Write;
+use std::io::*;
 use std::string::*;
 
 pub fn run() -> Result<()> {
@@ -11,6 +11,12 @@ pub fn run() -> Result<()> {
         stdout().flush()?;
 
         let input: String = read();
+
+        if input == format!("exit") {
+            println!("God Bey...");
+            break Ok(());
+        }
+
         let lexer = Lexer::new(input.clone());
         let mut parser = Parser::new(lexer);
         let program = parser.parse_program();
