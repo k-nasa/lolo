@@ -71,9 +71,11 @@ fn eval_bang_operator(right: Object) -> Object {
 
 fn eval_minus_prefix(right: Object) -> Object {
     match right.object_type {
-        ObjectType::Integer(i) => Object { object_type: ObjectType::Integer(-i) },
+        ObjectType::Integer(i) => Object {
+            object_type: ObjectType::Integer(-i),
+        },
         ObjectType::Null => NULL,
-        _ => panic!("faild: eval minus prefix")
+        _ => panic!("faild: eval minus prefix"),
     }
 }
 
