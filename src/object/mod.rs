@@ -1,3 +1,5 @@
+pub use self::ObjectType::*;
+
 #[derive(Debug, PartialEq, Eq)]
 pub enum ObjectType {
     Integer(i64),
@@ -13,42 +15,42 @@ pub struct Object {
 impl Object {
     pub fn inspect(&self) -> String {
         match self.object_type {
-            ObjectType::Integer(x) => x.to_string(),
-            ObjectType::Boolean(x) => x.to_string(),
-            ObjectType::Null => "Null".to_string(),
+            Integer(x) => x.to_string(),
+            Boolean(x) => x.to_string(),
+            Null => "Null".to_string(),
         }
     }
 
     // FIXME fron_int, from_boolは一般化できそうな雰囲気isある
     pub fn from_int(integer: i64) -> Object {
         Object {
-            object_type: ObjectType::Integer(integer),
+            object_type: Integer(integer),
         }
     }
 
     pub fn from_bool(boolean: bool) -> Object {
         Object {
-            object_type: ObjectType::Boolean(boolean),
+            object_type: Boolean(boolean),
         }
     }
 
     pub fn integer_value(&self) -> i64 {
         match self.object_type {
-            ObjectType::Integer(x) => x,
+            Integer(x) => x,
             _ => panic!("faild: Object.integer_value"),
         }
     }
 
     pub fn boolean_value(&self) -> bool {
         match self.object_type {
-            ObjectType::Boolean(x) => x,
+            Boolean(x) => x,
             _ => panic!("faild: Object.boolean_value"),
         }
     }
 
     pub fn is_int(&self) -> bool {
         match self.object_type {
-            ObjectType::Integer(_) => true,
+            Integer(_) => true,
             _ => false,
         }
     }
