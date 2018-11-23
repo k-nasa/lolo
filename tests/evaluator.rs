@@ -66,7 +66,7 @@ mod test {
         let mut parser = Parser::new(lexer);
         let program = parser.parse_program();
 
-        lolo::evaluator::eval(program).expect("fald eval")
+        lolo::evaluator::eval(&program).expect("fald eval")
     }
 
     fn test_integer_object(obj: &Object, expected: i64) {

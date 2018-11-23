@@ -1,6 +1,6 @@
 pub mod ast;
 
-use self::ast::{*, statements::*, expressions::*};
+use self::ast::{expressions::*, statements::*, *};
 use super::lexer::{token::*, *};
 
 #[derive(Debug)]
@@ -91,7 +91,7 @@ impl Parser {
         };
 
         // FIXME to notify errors messegage
-        self.expect_peek_token(TokenType::ASSIGN);
+        self.expect_peek_token(&TokenType::ASSIGN);
         self.next_token();
 
         let value = self.parse_expression(&Precedence::LOWEST);
@@ -136,20 +136,20 @@ impl Parser {
     fn parse_expression(&mut self, preceduce: &Precedence) -> Expression {
         let token = self.current_token.clone();
         let mut left = self
-            .parse_prefix(token.token_type)
+            .parse_prefix(&token.token_type)
             .expect("failt parse_expression");
 
         while !self.peek_token_is(&TokenType::SEMICOLON) && self.peek_precedence() > *preceduce {
             let token = self.peek_token.clone();
 
             self.next_token();
-            left = self.parse_infix(token.token_type, left);
+            left = self.parse_infix(&token.token_type, left);
         }
 
         left
     }
 
-    fn parse_prefix(&mut self, token_type: TokenType) -> Option<Expression> {
+    fn parse_prefix(&mut self, token_type: &TokenType) -> Option<Expression> {
         use super::lexer::token::TokenType::*;
 
         match token_type {
@@ -164,7 +164,7 @@ impl Parser {
         }
     }
 
-    fn parse_infix(&mut self, token_type: TokenType, left: Expression) -> Expression {
+    fn parse_infix(&mut self, token_type: &TokenType, left: Expression) -> Expression {
         use super::lexer::token::TokenType::*;
 
         match token_type {
@@ -235,7 +235,7 @@ impl Parser {
 
         let exp = self.parse_expression(&Precedence::LOWEST);
 
-        if !self.expect_peek_token(TokenType::RPAREN) {
+        if !self.expect_peek_token(&TokenType::RPAREN) {
             // TODO add error message
             return None;
         }
@@ -246,7 +246,7 @@ impl Parser {
     fn parse_if_expression(&mut self) -> Option<Expression> {
         let token = self.current_token.clone();
 
-        if !self.expect_peek_token(TokenType::LPAREN) {
+        if !self.expect_peek_token(&TokenType::LPAREN) {
             // TODO add error message
             return None;
         }
@@ -254,12 +254,12 @@ impl Parser {
         self.next_token();
         let condition = self.parse_expression(&Precedence::LOWEST);
 
-        if !self.expect_peek_token(TokenType::RPAREN) {
+        if !self.expect_peek_token(&TokenType::RPAREN) {
             // TODO add error message
             return None;
         }
 
-        if !self.expect_peek_token(TokenType::LBRACE) {
+        if !self.expect_peek_token(&TokenType::LBRACE) {
             // TODO add error message
             return None;
         }
@@ -270,7 +270,7 @@ impl Parser {
         if self.peek_token_is(&TokenType::ELSE) {
             self.next_token();
 
-            if !self.expect_peek_token(TokenType::LBRACE) {
+            if !self.expect_peek_token(&TokenType::LBRACE) {
                 return None;
             } else {
                 alternative = Some(self.parse_block_statement());
@@ -303,7 +303,7 @@ impl Parser {
     fn parse_function_literal(&mut self) -> Option<Expression> {
         let token = self.current_token.clone();
 
-        if !self.expect_peek_token(TokenType::LPAREN) {
+        if !self.expect_peek_token(&TokenType::LPAREN) {
             return None;
         };
 
@@ -312,7 +312,7 @@ impl Parser {
             None => return None,
         };
 
-        if !self.expect_peek_token(TokenType::LBRACE) {
+        if !self.expect_peek_token(&TokenType::LBRACE) {
             return None;
         };
 
@@ -349,7 +349,7 @@ impl Parser {
             });
         }
 
-        if !self.expect_peek_token(TokenType::RPAREN) {
+        if !self.expect_peek_token(&TokenType::RPAREN) {
             println!("{:?}", self.current_token);
             println!("{:?}", self.peek_token);
             return None;
@@ -385,7 +385,7 @@ impl Parser {
             arguments.push(self.parse_expression(&Precedence::LOWEST));
         }
 
-        if !self.expect_peek_token(TokenType::RPAREN) {
+        if !self.expect_peek_token(&TokenType::RPAREN) {
             panic!("expected: ), but get {}", self.peek_token.literal)
         }
 
@@ -413,7 +413,7 @@ impl Parser {
         self.peek_token = self.lexer.next_token();
     }
 
-    fn expect_peek_token(&mut self, token_type: TokenType) -> bool {
+    fn expect_peek_token(&mut self, token_type: &TokenType) -> bool {
         if self.peek_token_is(&token_type) {
             self.next_token();
             return true;
