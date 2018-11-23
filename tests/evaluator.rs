@@ -68,7 +68,7 @@ mod test {
     fn is_should_if_expressions() {
         let test_cases = vec![
             ("if (true) { 10 }", "10"),
-            ("if (false) { 10 }", "Null"),
+            ("if (false) { 10 }", "null"),
             ("if (1) { 10 }", "10"),
             ("if (1 > 2) { 10 } else { 20 }", "20"),
             ("if (1 < 2) { 10 } else { 20 }", "10"),
