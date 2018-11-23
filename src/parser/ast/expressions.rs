@@ -31,21 +31,24 @@ impl Expression {
             Expression::FunctionLiteral(x) => x.to_string(),
             Expression::IfExpression(x) => x.to_string(),
             Expression::CallExpression(x) => x.to_string(),
-            Expression::ILLEGAL => panic!()
+            Expression::ILLEGAL => panic!(),
         }
     }
 }
 
 impl Node for Expression {
-    fn token_literal(&self) -> String { unimplemented!() }
+    fn token_literal(&self) -> String {
+        unimplemented!()
+    }
 
     fn to_ast(&self) -> AST {
         match self {
             Expression::PrefixExpression(x) => AST::PrefixExpression(x.clone()),
             Expression::InfixExpression(x) => AST::InfixExpression(x.clone()),
             Expression::IntegerLiteral(x) => AST::IntegerLiteral(x.clone()),
+            Expression::IfExpression(x) => AST::IfExpression(x.clone()),
             Expression::Boolean(x) => AST::Boolean(x.clone()),
-            _ => unimplemented!()
+            _ => unimplemented!(),
         }
     }
 }
@@ -68,7 +71,7 @@ pub struct IntegerLiteral {
     pub value: i64,
 }
 
-impl Node for IntegerLiteral{
+impl Node for IntegerLiteral {
     fn token_literal(&self) -> String {
         self.token.literal.clone()
     }
@@ -147,6 +150,16 @@ impl BlockStatement {
         }
 
         return_string
+    }
+}
+
+impl Node for BlockStatement {
+    fn token_literal(&self) -> String {
+        self.token.literal.clone()
+    }
+
+    fn to_ast(&self) -> AST {
+        AST::BlockStatement(self.clone())
     }
 }
 

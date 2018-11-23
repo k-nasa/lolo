@@ -1,9 +1,9 @@
-pub mod statements;
 pub mod expressions;
+pub mod statements;
 
-use crate::lexer::token::Token;
-use self::statements::*;
 use self::expressions::*;
+use self::statements::*;
+use crate::lexer::token::Token;
 
 #[derive(Debug, Clone)]
 pub enum AST {
@@ -14,6 +14,8 @@ pub enum AST {
     Identifier(Identifier),
     PrefixExpression(PrefixExpression),
     InfixExpression(InfixExpression),
+    BlockStatement(BlockStatement),
+    IfExpression(IfExpression),
 }
 
 pub trait Node {

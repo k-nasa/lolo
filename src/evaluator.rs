@@ -10,6 +10,8 @@ pub fn eval(node: &impl Node) -> Result<Object> {
         AST::ExpressionStatement(x) => eval(&x.expression),
         AST::PrefixExpression(x) => eval_prefix_expression(&x),
         AST::InfixExpression(x) => eval_infix_expression(&x),
+        AST::BlockStatement(x) => eval_statement(x.statements),
+        AST::IfExpression(x) => eval_if_expression(&x),
         AST::IntegerLiteral(x) => Ok(Object {
             object_type: ObjectType::Integer(x.value),
         }),
