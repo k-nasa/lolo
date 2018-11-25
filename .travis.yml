@@ -1,24 +1,13 @@
 language: rust
+
+dist: trusty
 sudo: required
 
-rust:
-  # - stable
-  - beta
-  - nightly
+cache: cargo
 
 matrix:
   allow_failures:
     - rust: nightly
-
-before_script:
-  - rustup component add clippy-preview
-  - rustup component add rustfmt-preview
-
-script:
-  - cargo clippy --all-targets --all-features -- -D warnings
-  - cargo fmt
-  - cargo build
-  - cargo test
 
 addons:
   apt:
@@ -26,25 +15,24 @@ addons:
       - libcurl4-openssl-dev
       - libelf-dev
       - libdw-dev
-      - cmake
-      - gcc
       - binutils-dev
       - libiberty-dev
 
-after_success: |
-  wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
-  tar xzf master.tar.gz &&
-  cd kcov-master &&
-  mkdir build &&
-  cd build &&
-  cmake .. &&
-  make &&
-  make install DESTDIR=../../kcov-build &&
-  cd ../.. &&
-  rm -rf kcov-master &&
-  for file in target/debug/lolo-*[^\.d]; do mkdir -p "target/cov/$(basename $file)"; ./kcov-build/usr/local/bin/kcov --exclude-pattern=/.cargo,/usr/lib --verify "target/cov/$(basename $file)" "$file"; done &&
-  for file in target/debug/parser-*[^\.d]; do mkdir -p "target/cov/$(basename $file)"; ./kcov-build/usr/local/bin/kcov --exclude-pattern=/.cargo,/usr/lib --verify "target/cov/$(basename $file)" "$file"; done &&
-  for file in target/debug/lexer-*[^\.d]; do mkdir -p "target/cov/$(basename $file)"; ./kcov-build/usr/local/bin/kcov --exclude-pattern=/.cargo,/usr/lib --verify "target/cov/$(basename $file)" "$file"; done &&
-  for file in target/debug/evaluator-*[^\.d]; do mkdir -p "target/cov/$(basename $file)"; ./kcov-build/usr/local/bin/kcov --exclude-pattern=/.cargo,/usr/lib --verify "target/cov/$(basename $file)" "$file"; done &&
-  bash <(curl -s https://codecov.io/bash) &&
-  echo "Uploaded code coverage"
+rust:
+  - beta
+  - nightly
+
+before_script:
+  - rustup component add clippy-preview
+  - rustup component add rustfmt-preview
+  - cargo install cargo-travis || echo "cargo-travis already installed"
+
+script:
+  - cargo clippy --all-targets --all-features -- -D warnings
+  - cargo fmt
+  - cargo build
+  - cargo test
+
+after_success:
+  - cargo coveralls
+  - cargo doc-upload
